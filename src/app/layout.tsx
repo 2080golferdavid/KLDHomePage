@@ -5,6 +5,8 @@ import {
   Noto_Sans_KR,
   DM_Mono,
 } from "next/font/google";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 /* ── Google Fonts 설정 ──
@@ -75,7 +77,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#080808" />
       </head>
       <body className="font-body antialiased">
+        {/* 모든 페이지에 공통으로 표시되는 상단 네비게이션 */}
+        <Nav />
+
         {children}
+
+        {/* 모든 페이지에 공통으로 표시되는 하단 푸터 */}
+        <Footer />
       </body>
     </html>
   );

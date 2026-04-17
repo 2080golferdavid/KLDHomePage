@@ -2,8 +2,11 @@ import Link from "next/link";
 import { FOOTER_LINKS } from "@/constants/siteData";
 
 /**
- * 사이트 하단 푸터
- * 브랜드 정보, 소셜 링크, 사이트맵, 저작권 표시를 포함한다.
+ * 사이트 하단 푸터(Footer)
+ * - 데스크탑(1024px 이상): 4열 그리드 — 브랜드 1.2fr + 링크 그룹 3열
+ * - 태블릿(768~1023px): 2열 그리드 — 브랜드는 첫 칸에만 위치
+ * - 모바일(767px 이하): 브랜드 영역이 전체 폭(col-span-2)을 차지하고,
+ *   아래에 링크 그룹 3개가 2열로 배치된다.
  */
 export default function Footer() {
   return (
@@ -15,12 +18,12 @@ export default function Footer() {
       <div
         className="
           grid grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr]
-          gap-7 lg:gap-12
+          gap-7 md:gap-9 lg:gap-12
           pb-12 border-b border-white/[0.06] mb-8
         "
       >
-        {/* 브랜드 영역 */}
-        <div className="col-span-2 lg:col-span-1">
+        {/* 브랜드 영역 — 모바일에서만 두 칸 전체(col-span-2)를 차지한다. */}
+        <div className="col-span-2 md:col-span-1">
           <div className="font-display text-[30px] tracking-[0.1em] text-white-kld mb-3.5">
             KLD
           </div>

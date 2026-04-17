@@ -1,8 +1,6 @@
 "use client";
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import TickerSection from "@/components/sections/TickerSection";
 import NextEventSection from "@/components/sections/NextEventSection";
@@ -21,37 +19,32 @@ export default function HomePage() {
   /* 스크롤 시 .reveal 요소에 등장 애니메이션을 적용한다. */
   useScrollReveal();
 
+  /* Nav와 Footer는 layout.tsx에서 공통으로 렌더링되므로 이 파일에서는 제외한다. */
   return (
-    <>
-      <Header />
+    <main>
+      {/* 히어로 — 풀스크린 메인 비주얼 */}
+      <HeroSection />
 
-      <main>
-        {/* 히어로 — 풀스크린 메인 비주얼 */}
-        <HeroSection />
+      {/* 티커 — 대회 결과 무한 스크롤 */}
+      <TickerSection />
 
-        {/* 티커 — 대회 결과 무한 스크롤 */}
-        <TickerSection />
+      {/* 다음 대회 정보 */}
+      <NextEventSection />
 
-        {/* 다음 대회 정보 */}
-        <NextEventSection />
+      {/* 시즌 통계 바 */}
+      <StatsSection />
 
-        {/* 시즌 통계 바 */}
-        <StatsSection />
+      {/* 시즌 랭킹 테이블 */}
+      <RankingsSection />
 
-        {/* 시즌 랭킹 테이블 */}
-        <RankingsSection />
+      {/* 이달의 선수 카드 */}
+      <PlayersSection />
 
-        {/* 이달의 선수 카드 */}
-        <PlayersSection />
+      {/* 미디어 하이라이트 */}
+      <MediaSection />
 
-        {/* 미디어 하이라이트 */}
-        <MediaSection />
-
-        {/* 공지사항 */}
-        <NoticeSection />
-      </main>
-
-      <Footer />
-    </>
+      {/* 공지사항 */}
+      <NoticeSection />
+    </main>
   );
 }

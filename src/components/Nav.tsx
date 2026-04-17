@@ -5,12 +5,13 @@ import Link from "next/link";
 import { NAV_LINKS } from "@/constants/siteData";
 
 /**
- * 사이트 상단 네비게이션 헤더
- * - 데스크톱: 로고 + 메뉴 링크 + CTA 버튼
- * - 모바일/태블릿: 로고 + 햄버거 메뉴 → 드로어
- * - 스크롤 시 배경 불투명도가 변경된다.
+ * 사이트 상단 네비게이션(Nav)
+ * - 데스크탑(1024px 이상): 로고 + 메뉴 링크 + 대회 신청 버튼
+ * - 태블릿/모바일(1023px 이하): 로고 + 햄버거 버튼 → 슬라이드 드로어(Drawer)
+ * - 스크롤 시 배경을 불투명(Solid)으로 변경한다.
+ * - 로고 좌측에는 KLD 빨간 테두리 배지(Badge)를 포함한다.
  */
-export default function Header() {
+export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
