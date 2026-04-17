@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="한국 장타 스포츠의 표준 — KLD Korea Long Drive Association">
+  <meta name="theme-color" content="#080808">
+  <title>KLD — Korea Long Drive Association</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Custom cursor (desktop) ── -->
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<header class="nav" role="banner">
+  <a href="/" class="nav-logo" aria-label="KLD 홈">
+    <div class="nav-logo-badge" aria-hidden="true">KLD</div>
+    <span>KOREA LONG DRIVE</span>
+  </a>
+
+  <!-- Desktop links -->
+  <nav class="nav-links" aria-label="주 메뉴">
+    <a href="/about">협회</a>
+    <a href="/competitions">대회</a>
+    <a href="/players">선수</a>
+    <a href="/rankings">랭킹</a>
+    <a href="/media">미디어</a>
+  </nav>
+  <a href="/apply" class="nav-cta">대회 신청</a>
+
+  <!-- Mobile hamburger -->
+  <button class="nav-hamburger" id="navHamburger" aria-label="메뉴 열기" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="nav-drawer" id="navDrawer" aria-label="모바일 메뉴">
+  <a href="/about">협회</a>
+  <a href="/competitions">대회</a>
+  <a href="/players">선수</a>
+  <a href="/rankings">랭킹</a>
+  <a href="/media">미디어</a>
+  <a href="/apply" class="cta">대회 신청하기</a>
+</nav>
+
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" aria-label="메인 히어로">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <!-- Swing line decoration -->
+  <svg class="hero-swing" viewBox="0 0 1440 80" fill="none" aria-hidden="true" preserveAspectRatio="none">
+    <path d="M-20 65 Q300 15 680 28 Q900 35 1100 18 Q1280 8 1460 22"
+          stroke="url(#swingGrad)" stroke-width="2.5" fill="none"/>
+    <circle cx="1102" cy="17" r="10" stroke="#C41E1E" stroke-width="1.5" fill="none" opacity="0.7"/>
+    <circle cx="1102" cy="17" r="4"  fill="#C41E1E" opacity="0.5"/>
+    <defs>
+      <linearGradient id="swingGrad" x1="0" y1="0" x2="1460" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#8B0000" stop-opacity="0"/>
+        <stop offset="50%"  stop-color="#C41E1E" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#C41E1E" stop-opacity="0.55"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Background distance number -->
+  <div class="hero-dist-bg" aria-hidden="true">387</div>
+
+  <!-- Season tag (desktop/tablet) -->
+  <div class="hero-season-tag" aria-hidden="true">
+    <div>2025 SEASON</div>
+    <div>ROUND <span>03 / 08</span></div>
+    <div>PARTICIPANTS <span>214</span></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="hero-content">
+    <div class="hero-live" role="status">
+      <span class="live-dot" aria-hidden="true"></span>
+      SEASON ACTIVE
+    </div>
+    <div class="hero-eyebrow">Korea Long Drive Association</div>
+    <h1 class="hero-title">
+      LONGEST<br>
+      <em>HITTERS</em><br>
+      IN KOREA
+    </h1>
+    <p class="hero-desc">
+      한국 최고의 장타자들이 모이는 곳.<br>
+      아마추어부터 오픈까지, KLD가 기록을 만들고 챔피언을 탄생시킵니다.
+    </p>
+    <div class="hero-actions">
+      <a href="/apply" class="btn-primary">
+        <span>대회 신청하기</span>
+      </a>
+      <a href="/competitions" class="btn-secondary">대회 일정 보기</a>
+    </div>
+
+    <!-- Countdown (inline on mobile, keeps flow) -->
+    <div class="hero-countdown" aria-label="다음 대회까지">
+      <div class="hero-countdown-label">
+        <div class="event-tag">NEXT EVENT</div>
+        <div class="event-name">플렉스골프라운지 × KLD</div>
+      </div>
+      <div class="cd-item">
+        <span class="cd-num" id="cdDays">--</span>
+        <span class="cd-label">DAYS</span>
+      </div>
+      <div class="cd-item">
+        <span class="cd-num" id="cdHours">--</span>
+        <span class="cd-label">HRS</span>
+      </div>
+      <div class="cd-item">
+        <span class="cd-num" id="cdMins">--</span>
+        <span class="cd-label">MIN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     TICKER
+════════════════════════════════════════ -->
+<div class="ticker" aria-label="최근 대회 결과" role="marquee">
+  <div class="ticker-inner" aria-hidden="true">
+    <div class="ticker-item">
+      <span>2025 시즌 3라운드</span><span class="ticker-dot"></span>
+      <span>아마추어 우승 — 김태훈 381m</span><span class="ticker-dot"></span>
+      <span>오픈 우승 — 박성민 395m</span><span class="ticker-dot"></span>
+      <span>우먼스 우승 — 이지수 312m</span><span class="ticker-dot"></span>
+      <span>마스터즈 우승 — 최병훈 368m</span><span class="ticker-dot"></span>
+      <span>NEXT: 플렉스골프라운지 × KLD — 06.29</span><span class="ticker-dot"></span>
+    </div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item" aria-hidden="true">
+      <span>2025 시즌 3라운드</span><span class="ticker-dot"></span>
+      <span>아마추어 우승 — 김태훈 381m</span><span class="ticker-dot"></span>
+      <span>오픈 우승 — 박성민 395m</span><span class="ticker-dot"></span>
+      <span>우먼스 우승 — 이지수 312m</span><span class="ticker-dot"></span>
+      <span>마스터즈 우승 — 최병훈 368m</span><span class="ticker-dot"></span>
+      <span>NEXT: 플렉스골프라운지 × KLD — 06.29</span><span class="ticker-dot"></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     NEXT EVENT
+════════════════════════════════════════ -->
+<article class="next-event reveal" aria-label="다음 대회 정보">
+  <div class="event-visual" aria-hidden="true">
+    <div class="event-number">4</div>
+    <div class="event-badge">
+      <span class="event-badge-num">4TH</span>
+      <span class="event-badge-label">2025 Season Round</span>
+    </div>
+  </div>
+  <div class="event-info">
+    <div class="event-series">KLD 2025 정규 시즌</div>
+    <h2 class="event-name">플렉스골프라운지<br>× KLD 장타대회</h2>
+    <dl class="event-meta">
+      <div class="event-meta-item">
+        <div class="event-meta-icon" aria-hidden="true">📅</div>
+        <div class="event-meta-text">
+          <strong>2025년 6월 29일 (일)</strong>
+          시간 추후 공지 예정
+        </div>
+      </div>
+      <div class="event-meta-item">
+        <div class="event-meta-icon" aria-hidden="true">📍</div>
+        <div class="event-meta-text">
+          <strong>플렉스골프라운지</strong>
+          서울 · 상세 주소 확인
+        </div>
+      </div>
+      <div class="event-meta-item">
+        <div class="event-meta-icon" aria-hidden="true">🏆</div>
+        <div class="event-meta-text">
+          <strong>개인전 + 팀 대항전</strong>
+          팀전은 개인전 참가자만 신청 가능
+        </div>
+      </div>
+    </dl>
+    <div class="event-divisions" role="list" aria-label="참가 디비전">
+      <div class="division-tag active" role="listitem">아마추어</div>
+      <div class="division-tag active" role="listitem">마스터즈 40+</div>
+      <div class="division-tag active" role="listitem">우먼스</div>
+      <div class="division-tag active" role="listitem">오픈</div>
+    </div>
+    <a href="/apply" class="btn-primary">
+      <span>지금 신청하기 →</span>
+    </a>
+  </div>
+</article>
+
+
+<!-- ════════════════════════════════════════
+     STATS
+════════════════════════════════════════ -->
+<section class="stats-section reveal" aria-label="시즌 주요 통계">
+  <div class="stats-grid">
+    <div class="stat-block">
+      <span class="stat-block-num">214</span>
+      <div class="stat-block-label">2025 시즌 참가 선수</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-block-num">8</span>
+      <div class="stat-block-label">올해 개최 대회 수</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-block-num">387<span style="font-size:0.5em">m</span></span>
+      <div class="stat-block-label">시즌 최장 비거리 기록</div>
+    </div>
+    <div class="stat-block">
+      <span class="stat-block-num">4</span>
+      <div class="stat-block-label">디비전 / 리그</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     RANKINGS
+════════════════════════════════════════ -->
+<section class="section rankings reveal" aria-label="시즌 랭킹">
+  <div class="rankings-header">
+    <div>
+      <div class="section-label">Season Standings</div>
+      <div class="section-title" style="margin-bottom:0">2025<br>시즌 랭킹</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:16px">
+      <div class="division-tabs" role="tablist" aria-label="디비전 선택">
+        <button class="div-tab active" role="tab" aria-selected="true">아마추어</button>
+        <button class="div-tab" role="tab" aria-selected="false">마스터즈</button>
+        <button class="div-tab" role="tab" aria-selected="false">우먼스</button>
+        <button class="div-tab" role="tab" aria-selected="false">오픈</button>
+      </div>
+      <a href="/rankings" class="view-all">전체 랭킹 보기</a>
+    </div>
+  </div>
+
+  <table class="ranking-table" aria-label="아마추어 디비전 랭킹">
+    <thead>
+      <tr>
+        <th scope="col">RANK</th>
+        <th scope="col" aria-label="변동"></th>
+        <th scope="col">PLAYER</th>
+        <th scope="col">최장 비거리</th>
+        <th scope="col" class="col-participation">대회 참가</th>
+        <th scope="col">포인트</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="rank-top">
+        <td><div class="rank-num" style="color:var(--red)">01</div></td>
+        <td><div class="rank-change same">─</div></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar" aria-hidden="true">KT</div>
+            <div>
+              <span class="player-name">김태훈</span>
+              <span class="player-region">SEOUL · 아마추어</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="distance-cell">381<span class="unit">m</span></span></td>
+        <td class="col-participation"><span class="points-cell">3 / 3</span></td>
+        <td><span class="points-cell"><strong>1,250</strong>pts</span></td>
+      </tr>
+      <tr>
+        <td><div class="rank-num">02</div></td>
+        <td><div class="rank-change up">↑2</div></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar" aria-hidden="true">LJ</div>
+            <div>
+              <span class="player-name">이재호</span>
+              <span class="player-region">BUSAN · 아마추어</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="distance-cell">373<span class="unit">m</span></span></td>
+        <td class="col-participation"><span class="points-cell">3 / 3</span></td>
+        <td><span class="points-cell"><strong>1,140</strong>pts</span></td>
+      </tr>
+      <tr>
+        <td><div class="rank-num">03</div></td>
+        <td><div class="rank-change down">↓1</div></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar" aria-hidden="true">PJ</div>
+            <div>
+              <span class="player-name">박준서</span>
+              <span class="player-region">INCHEON · 아마추어</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="distance-cell">369<span class="unit">m</span></span></td>
+        <td class="col-participation"><span class="points-cell">2 / 3</span></td>
+        <td><span class="points-cell"><strong>980</strong>pts</span></td>
+      </tr>
+      <tr>
+        <td><div class="rank-num">04</div></td>
+        <td><div class="rank-change up">↑1</div></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar" aria-hidden="true">CS</div>
+            <div>
+              <span class="player-name">최승우</span>
+              <span class="player-region">DAEGU · 아마추어</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="distance-cell">365<span class="unit">m</span></span></td>
+        <td class="col-participation"><span class="points-cell">3 / 3</span></td>
+        <td><span class="points-cell"><strong>870</strong>pts</span></td>
+      </tr>
+      <tr>
+        <td><div class="rank-num">05</div></td>
+        <td><div class="rank-change down">↓2</div></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar" aria-hidden="true">HM</div>
+            <div>
+              <span class="player-name">한민준</span>
+              <span class="player-region">GWANGJU · 아마추어</span>
+            </div>
+          </div>
+        </td>
+        <td><span class="distance-cell">358<span class="unit">m</span></span></td>
+        <td class="col-participation"><span class="points-cell">2 / 3</span></td>
+        <td><span class="points-cell"><strong>760</strong>pts</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FEATURED PLAYERS
+════════════════════════════════════════ -->
+<section class="section players reveal" aria-label="이달의 선수">
+  <div class="section-label">Featured Athletes</div>
+  <div class="section-title">이달의 선수</div>
+  <div class="players-grid">
+
+    <article class="player-card" data-id="kim-taehun">
+      <div class="player-card-bg" style="background:linear-gradient(160deg,#1a0404 0%,#080303 100%)" aria-hidden="true"></div>
+      <div class="player-card-num" aria-hidden="true">01</div>
+      <svg class="player-silhouette" viewBox="0 0 200 400" fill="none" aria-hidden="true">
+        <ellipse cx="100" cy="60" rx="30" ry="35" fill="white"/>
+        <path d="M70 100 Q40 160 30 250 Q60 260 100 255 Q140 260 170 250 Q160 160 130 100 Z" fill="white"/>
+        <path d="M70 170 Q20 200 10 240" stroke="white" stroke-width="20" stroke-linecap="round"/>
+        <path d="M130 170 Q180 140 200 160" stroke="white" stroke-width="20" stroke-linecap="round"/>
+        <path d="M75 255 Q65 320 60 390" stroke="white" stroke-width="22" stroke-linecap="round"/>
+        <path d="M125 255 Q135 320 140 390" stroke="white" stroke-width="22" stroke-linecap="round"/>
+      </svg>
+      <div class="player-card-info">
+        <div class="player-card-division">아마추어 · 1위</div>
+        <div class="player-card-name">김태훈</div>
+        <div class="player-card-stats">
+          <div class="player-stat">
+            <span class="player-stat-val">381m</span>
+            <span class="player-stat-label">시즌 최장</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">1,250</span>
+            <span class="player-stat-label">포인트</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="player-card" data-id="park-sungmin">
+      <div class="player-card-bg" style="background:linear-gradient(160deg,#150404 0%,#060202 100%)" aria-hidden="true"></div>
+      <div class="player-card-num" aria-hidden="true">02</div>
+      <svg class="player-silhouette" viewBox="0 0 200 400" fill="none" aria-hidden="true">
+        <ellipse cx="100" cy="55" rx="28" ry="32" fill="white"/>
+        <path d="M72 90 Q45 155 38 245 Q68 255 100 250 Q132 255 162 245 Q155 155 128 90 Z" fill="white"/>
+        <path d="M72 165 Q22 195 5 240" stroke="white" stroke-width="18" stroke-linecap="round"/>
+        <path d="M128 165 Q190 130 210 155" stroke="white" stroke-width="18" stroke-linecap="round"/>
+        <path d="M78 250 Q68 315 64 385" stroke="white" stroke-width="20" stroke-linecap="round"/>
+        <path d="M122 250 Q132 315 136 385" stroke="white" stroke-width="20" stroke-linecap="round"/>
+      </svg>
+      <div class="player-card-info">
+        <div class="player-card-division">오픈 · 우승자</div>
+        <div class="player-card-name">박성민</div>
+        <div class="player-card-stats">
+          <div class="player-stat">
+            <span class="player-stat-val">395m</span>
+            <span class="player-stat-label">시즌 최장</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">3회</span>
+            <span class="player-stat-label">우승</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="player-card" data-id="lee-jisu">
+      <div class="player-card-bg" style="background:linear-gradient(160deg,#180404 0%,#080303 100%)" aria-hidden="true"></div>
+      <div class="player-card-num" aria-hidden="true">03</div>
+      <svg class="player-silhouette" viewBox="0 0 200 400" fill="none" aria-hidden="true">
+        <ellipse cx="100" cy="58" rx="26" ry="30" fill="white"/>
+        <path d="M74 92 Q50 150 42 240 Q70 250 100 246 Q130 250 158 240 Q150 150 126 92 Z" fill="white"/>
+        <path d="M74 160 Q28 188 12 230" stroke="white" stroke-width="17" stroke-linecap="round"/>
+        <path d="M126 160 Q185 125 205 148" stroke="white" stroke-width="17" stroke-linecap="round"/>
+        <path d="M80 246 Q70 310 67 382" stroke="white" stroke-width="19" stroke-linecap="round"/>
+        <path d="M120 246 Q130 310 133 382" stroke="white" stroke-width="19" stroke-linecap="round"/>
+      </svg>
+      <div class="player-card-info">
+        <div class="player-card-division">우먼스 · 1위</div>
+        <div class="player-card-name">이지수</div>
+        <div class="player-card-stats">
+          <div class="player-stat">
+            <span class="player-stat-val">312m</span>
+            <span class="player-stat-label">시즌 최장</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">2회</span>
+            <span class="player-stat-label">우승</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="player-card" data-id="choi-byunghun">
+      <div class="player-card-bg" style="background:linear-gradient(160deg,#160404 0%,#070303 100%)" aria-hidden="true"></div>
+      <div class="player-card-num" aria-hidden="true">04</div>
+      <svg class="player-silhouette" viewBox="0 0 200 400" fill="none" aria-hidden="true">
+        <ellipse cx="100" cy="56" rx="31" ry="34" fill="white"/>
+        <path d="M69 94 Q42 158 33 248 Q62 258 100 254 Q138 258 167 248 Q158 158 131 94 Z" fill="white"/>
+        <path d="M69 168 Q18 198 8 242" stroke="white" stroke-width="20" stroke-linecap="round"/>
+        <path d="M131 168 Q185 138 202 162" stroke="white" stroke-width="20" stroke-linecap="round"/>
+        <path d="M76 254 Q66 320 62 390" stroke="white" stroke-width="22" stroke-linecap="round"/>
+        <path d="M124 254 Q134 320 138 390" stroke="white" stroke-width="22" stroke-linecap="round"/>
+      </svg>
+      <div class="player-card-info">
+        <div class="player-card-division">마스터즈 · 1위</div>
+        <div class="player-card-name">최병훈</div>
+        <div class="player-card-stats">
+          <div class="player-stat">
+            <span class="player-stat-val">368m</span>
+            <span class="player-stat-label">시즌 최장</span>
+          </div>
+          <div class="player-stat">
+            <span class="player-stat-val">1,080</span>
+            <span class="player-stat-label">포인트</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     MEDIA
+════════════════════════════════════════ -->
+<section class="section media reveal" aria-label="미디어 하이라이트">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Media & Highlights</div>
+      <div class="section-title" style="margin-bottom:0">미디어</div>
+    </div>
+    <a href="/media" class="view-all">전체 보기</a>
+  </div>
+
+  <div class="media-grid">
+    <!-- Featured video -->
+    <article class="media-item featured">
+      <div class="media-item-bg" style="background:linear-gradient(135deg,#180808 0%,#0d0505 100%)" aria-hidden="true"></div>
+      <div class="media-geo" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="90" stroke="rgba(196,30,30,1)" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="58" stroke="rgba(196,30,30,0.5)" stroke-width="0.8"/>
+          <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(196,30,30,0.4)" stroke-width="0.6"/>
+          <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(196,30,30,0.4)" stroke-width="0.6"/>
+        </svg>
+      </div>
+      <div class="media-item-overlay" aria-hidden="true"></div>
+      <div class="media-play-btn" aria-label="영상 재생" role="button">▶</div>
+      <div class="media-item-content">
+        <div class="media-type"><span class="media-type-dot" aria-hidden="true"></span>HIGHLIGHT · 3RD ROUND</div>
+        <h3 class="media-title">2025 시즌 3라운드<br>대회 하이라이트 영상</h3>
+      </div>
+    </article>
+
+    <!-- Photo -->
+    <article class="media-item">
+      <div class="media-item-bg" style="background:linear-gradient(135deg,#140404 0%,#0a0404 100%)" aria-hidden="true"></div>
+      <div class="media-geo" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <rect x="20" y="20" width="160" height="160" stroke="rgba(196,30,30,1)" stroke-width="1.5"/>
+          <rect x="50" y="50" width="100" height="100" stroke="rgba(196,30,30,0.5)" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="media-item-overlay" aria-hidden="true"></div>
+      <div class="media-item-content">
+        <div class="media-type"><span class="media-type-dot" aria-hidden="true"></span>PHOTO</div>
+        <h3 class="media-title">광주 쌍암점 대회 포토</h3>
+      </div>
+    </article>
+
+    <!-- Interview video -->
+    <article class="media-item">
+      <div class="media-item-bg" style="background:linear-gradient(135deg,#120404 0%,#080303 100%)" aria-hidden="true"></div>
+      <div class="media-geo" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <polygon points="100,15 185,185 15,185" stroke="rgba(196,30,30,1)" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="media-item-overlay" aria-hidden="true"></div>
+      <div class="media-play-btn" aria-label="영상 재생" role="button">▶</div>
+      <div class="media-item-content">
+        <div class="media-type"><span class="media-type-dot" aria-hidden="true"></span>INTERVIEW</div>
+        <h3 class="media-title">챔피언 인터뷰</h3>
+      </div>
+    </article>
+
+    <!-- Gallery -->
+    <article class="media-item">
+      <div class="media-item-bg" style="background:linear-gradient(135deg,#160404 0%,#0a0404 100%)" aria-hidden="true"></div>
+      <div class="media-geo" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="80" stroke="rgba(196,30,30,0.8)" stroke-width="1.5" stroke-dasharray="8 4"/>
+        </svg>
+      </div>
+      <div class="media-item-overlay" aria-hidden="true"></div>
+      <div class="media-item-content">
+        <div class="media-type"><span class="media-type-dot" aria-hidden="true"></span>PHOTO</div>
+        <h3 class="media-title">시즌 3 수상 갤러리</h3>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     NOTICE
+════════════════════════════════════════ -->
+<section class="notice reveal" aria-label="공지사항">
+  <div class="section-head">
+    <div>
+      <div class="section-label">Announcements</div>
+      <div class="section-title" style="margin-bottom:0">공지사항</div>
+    </div>
+    <a href="/notices" class="view-all">전체 공지 보기</a>
+  </div>
+  <ul class="notice-list" role="list">
+    <li class="notice-item" role="listitem">
+      <span class="notice-cat">대회공지</span>
+      <span class="notice-title">2025 플렉스골프라운지 × KLD 장타대회 참가 신청 안내</span>
+      <span class="notice-date">2025.05.28</span>
+    </li>
+    <li class="notice-item" role="listitem">
+      <span class="notice-cat">대회결과</span>
+      <span class="notice-title">2025 시즌 3라운드 S SEVEN × FIRSTONE GOLF 대회 결과 발표</span>
+      <span class="notice-date">2025.04.14</span>
+    </li>
+    <li class="notice-item" role="listitem">
+      <span class="notice-cat">규정안내</span>
+      <span class="notice-title">2025 시즌 디비전 참가 자격 및 리그 규정 개정 안내</span>
+      <span class="notice-date">2025.03.10</span>
+    </li>
+    <li class="notice-item" role="listitem">
+      <span class="notice-cat">시즌일정</span>
+      <span class="notice-title">KLD 2025 정규 시즌 전체 대회 일정 및 장소 확정 안내</span>
+      <span class="notice-date">2025.01.15</span>
+    </li>
+  </ul>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">KLD</div>
+      <p class="footer-tagline">한국 장타 스포츠의 표준을 세우는<br>Korea Long Drive Association</p>
+      <div class="footer-social" aria-label="소셜 미디어">
+        <a href="#" class="social-btn" aria-label="유튜브">▶</a>
+        <a href="#" class="social-btn" aria-label="인스타그램">◎</a>
+        <a href="#" class="social-btn" aria-label="카카오">✦</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">대회</div>
+      <ul class="footer-links">
+        <li><a href="/competitions">대회 일정</a></li>
+        <li><a href="/apply">대회 신청</a></li>
+        <li><a href="/results">대회 결과</a></li>
+        <li><a href="/rules">대회 규정</a></li>
+        <li><a href="/archive">역대 대회</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">선수 & 랭킹</div>
+      <ul class="footer-links">
+        <li><a href="/players">선수 프로필</a></li>
+        <li><a href="/rankings">시즌 랭킹</a></li>
+        <li><a href="/records">최장 비거리 기록</a></li>
+        <li><a href="/hall-of-fame">명예의 전당</a></li>
+        <li><a href="/register">선수 등록</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">협회</div>
+      <ul class="footer-links">
+        <li><a href="/about">KLD 소개</a></li>
+        <li><a href="/team">운영진</a></li>
+        <li><a href="/privacy">개인정보처리방침</a></li>
+        <li><a href="/terms">이용약관</a></li>
+        <li><a href="/contact">문의하기</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 KOREA LONG DRIVE ASSOCIATION. ALL RIGHTS RESERVED.</div>
+    <div class="footer-copy">대표: 박경현 · kld2024@naver.com · 010-9916-8117</div>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════
+     MOBILE BOTTOM TAB BAR
+════════════════════════════════════════ -->
+<nav class="bottom-tab-bar" aria-label="모바일 하단 탭">
+  <a href="/" class="tab-item active" aria-label="홈">
+    <span class="tab-icon" aria-hidden="true">🏠</span>
+    <span>홈</span>
+  </a>
+  <a href="/competitions" class="tab-item" aria-label="대회">
+    <span class="tab-icon" aria-hidden="true">📅</span>
+    <span>대회</span>
+  </a>
+  <div class="tab-apply-wrap">
+    <a href="/apply" class="tab-apply-btn" aria-label="대회 신청">🏌️</a>
+    <div class="tab-apply-label">신청</div>
+  </div>
+  <a href="/rankings" class="tab-item" aria-label="랭킹">
+    <span class="tab-icon" aria-hidden="true">🏆</span>
+    <span>랭킹</span>
+  </a>
+  <a href="/mypage" class="tab-item" aria-label="마이페이지">
+    <span class="tab-icon" aria-hidden="true">👤</span>
+    <span>MY</span>
+  </a>
+</nav>
+
+
+<!-- ════════════════════════════════════════
+     SCRIPT (defer — loads after HTML parsed)
+════════════════════════════════════════ -->
+<script src="main.js" defer></script>
+
+</body>
+</html>
