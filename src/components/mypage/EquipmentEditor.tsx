@@ -50,7 +50,7 @@ export default function EquipmentEditor({
       {/* 빈 상태 */}
       {items.length === 0 ? (
         <p className="text-[13px] font-light text-gray-mid py-6 text-center border border-dashed border-kld-red/20">
-          등록된 장비가 없습니다. 아래 "장비 추가" 버튼을 눌러 시작하세요.
+          등록된 장비가 없습니다. 아래 &quot;장비 추가&quot; 버튼을 눌러 시작하세요.
         </p>
       ) : null}
 

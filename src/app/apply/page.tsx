@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
 
 export const metadata: Metadata = {
     title: "대회 참가 신청 — KLD",
