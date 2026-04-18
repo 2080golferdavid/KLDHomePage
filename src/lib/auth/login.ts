@@ -37,7 +37,16 @@ export async function loginWithEmailPassword(
     const isAdmin = email.startsWith("admin");
 
     if (typeof window !== "undefined") {
-        signInAs(userId, isAdmin ? "admin" : null);
+        /* 회원 등급 스텁 규칙:
+           - admin* 이메일 → role='admin', 정회원(full)
+           - full* 이메일  → 정회원(full)
+           - 그 외         → 일반회원(general) */
+        const memberType = isAdmin || email.startsWith("full") ? "full" : "general";
+        signInAs(userId, {
+            role: isAdmin ? "admin" : null,
+            memberType,
+            name: userId,
+        });
     }
 
     return { success: true };

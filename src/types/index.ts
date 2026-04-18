@@ -160,6 +160,8 @@ export interface PlayerProfile {
   initials: string;
   division: Division;
   region: string;
+  /** 소속(팀/클럽명). 없으면 undefined. */
+  affiliation?: string;
   /** 간단한 자기소개 문장(2~3줄 분량) */
   bio: string;
   /** 프로필 사진 URL. 비어 있으면 그래디언트 + 이니셜을 사용한다. */
