@@ -12,19 +12,25 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      /* ── KLD 브랜드 색상 ── */
+      /* ── KLD 브랜드 색상 ──
+         CSS 변수(--color-kld-*)와 동기화되어 있다.
+         Tailwind 유틸리티: bg-kld-red, text-kld-black 등으로 사용 */
       colors: {
         kld: {
           red: "#C41E1E",
-          "red-dark": "#8B0000",
-          "red-light": "#E03535",
+          dark: "#8B0000",
+          black: "#080808",
+          white: "#F5F5F5",
+          gray: "#888888",
         },
+        /* 단계별 다크 톤 — 카드/섹션 배경 구분용 */
         dark: {
           DEFAULT: "#080808",
           100: "#111111",
           200: "#1A1A1A",
           300: "#2A2A2A",
         },
+        /* 기존 컴포넌트 호환용 별칭 */
         gray: {
           kld: "#444444",
           mid: "#888888",

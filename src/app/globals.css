@@ -8,14 +8,32 @@
 ══════════════════════════════════════════ */
 
 @layer base {
+  /* ── KLD 디자인 토큰(CSS 변수) ──
+     JS에서 var(--color-kld-red) 등으로 접근할 수 있다.
+     Tailwind config의 colors와 동기화를 유지해야 한다. */
+  :root {
+    /* 색상 */
+    --color-kld-red: #C41E1E;
+    --color-kld-dark: #8B0000;
+    --color-kld-black: #080808;
+    --color-kld-white: #F5F5F5;
+    --color-kld-gray: #888888;
+
+    /* 폰트 — next/font가 자동 주입하는 변수와 동일 */
+    --font-bebas: var(--font-bebas);
+    --font-barlow: var(--font-barlow);
+    --font-noto: var(--font-noto);
+    --font-dm-mono: var(--font-dm-mono);
+  }
+
   /* HTML 기본 리셋 */
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    background: #080808;
-    color: #f5f5f5;
+    background: var(--color-kld-black);
+    color: var(--color-kld-white);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
