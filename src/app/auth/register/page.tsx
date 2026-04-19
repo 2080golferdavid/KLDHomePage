@@ -11,53 +11,45 @@ import StepDone from "@/components/auth/register/StepDone";
 import { useSignupFlow } from "@/hooks/useSignupFlow";
 
 /**
- * 회원가입(Register) 페이지 — 5단계 + 완료 화면
- *
- * 페이지 전체를 클라이언트 컴포넌트(Client Component)로 구성한다.
- *  - 모든 스텝이 사용자 입력에 따라 진행되므로 SSR 이점이 작고,
- *    상태 공유(useSignupFlow 훅)가 한 트리 안에서 이루어져야 한다.
- *  - SEO 상 중요한 페이지가 아니므로 이 선택이 합리적이다.
- *
- * 각 스텝은 독립 파일로 분리되어 있으며, 훅이 반환한 액션과 데이터를
- * 필요한 만큼만 props 로 전달한다(컴포넌트 간 결합도를 낮춘다).
+ * 회원가입(Register) 페이지 — 5단계 + 완료 화면.
+ * 페이지 전체가 클라이언트 컴포넌트. 상태 공유는 useSignupFlow 훅이 담당.
  */
 export default function RegisterPage() {
   const flow = useSignupFlow();
 
   return (
-    <main className="pt-nav bg-dark min-h-screen">
-      <section
-        className="
-          mx-auto w-full max-w-[640px]
-          px-5 md:px-8
-          pt-14 md:pt-20 pb-24
-        "
-      >
-        {/* ── 상단 헤더: 가입 타이틀 + 로그인 링크 ── */}
-        <header className="flex items-start justify-between gap-4 mb-10">
+    <main style={{ minHeight: "100vh", paddingTop: 140, paddingBottom: 96 }}>
+      <div className="wrap" style={{ maxWidth: 720 }}>
+        <header
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            gap: 16,
+            marginBottom: 32,
+            flexWrap: "wrap",
+          }}
+        >
           <div>
-            <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-2">
-              KLD Register
-            </div>
-            <h1 className="font-display text-[clamp(34px,4.5vw,56px)] leading-[1] tracking-[0.02em] text-white-kld">
-              회원가입
+            <div className="sec-eyebrow">JOIN KLD · 회원가입</div>
+            <h1
+              className="sec-title"
+              style={{ fontSize: "clamp(36px, 5vw, 64px)" }}
+            >
+              REGISTER<span className="kr">KLD 계정 만들기</span>
             </h1>
           </div>
           {flow.step !== 6 ? (
             <Link
               href="/auth/login"
-              className="
-                font-mono text-[10px] tracking-[0.2em] uppercase
-                text-gray-mid hover:text-kld-red transition-colors
-                whitespace-nowrap pt-2
-              "
+              className="btn btn-ghost"
+              style={{ marginTop: 8 }}
             >
-              이미 계정이 있나요?
+              이미 계정이 있으신가요? <span className="arrow">→</span>
             </Link>
           ) : null}
         </header>
 
-        {/* ── 진행 바 — 완료 화면에서는 숨긴다. ── */}
         {flow.step !== 6 ? (
           <SignupProgress
             currentStep={flow.step}
@@ -65,9 +57,6 @@ export default function RegisterPage() {
           />
         ) : null}
 
-        {/* ════════════════════
-            스텝 전환
-        ════════════════════ */}
         {flow.step === 1 ? (
           <Step1Account
             loading={flow.loading}
@@ -78,10 +67,7 @@ export default function RegisterPage() {
         ) : null}
 
         {flow.step === 2 ? (
-          <Step2Membership
-            onSubmit={flow.submitStep2}
-            onBack={flow.goBack}
-          />
+          <Step2Membership onSubmit={flow.submitStep2} onBack={flow.goBack} />
         ) : null}
 
         {flow.step === 3 ? (
@@ -113,7 +99,7 @@ export default function RegisterPage() {
         ) : null}
 
         {flow.step === 6 ? <StepDone data={flow.data} /> : null}
-      </section>
+      </div>
     </main>
   );
 }

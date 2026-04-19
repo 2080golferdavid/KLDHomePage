@@ -49,7 +49,7 @@ export default function EquipmentEditor({
     <div className="flex flex-col gap-3">
       {/* 빈 상태 */}
       {items.length === 0 ? (
-        <p className="text-[13px] font-light text-gray-mid py-6 text-center border border-dashed border-kld-red/20">
+        <p className="text-[13px] font-light text-gray-mid py-6 text-center border border-dashed border-kld-green/20">
           등록된 장비가 없습니다. 아래 &quot;장비 추가&quot; 버튼을 눌러 시작하세요.
         </p>
       ) : null}
@@ -60,7 +60,7 @@ export default function EquipmentEditor({
           className="
             grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_auto] gap-2 md:gap-3
             p-3 md:p-4
-            bg-dark-200 border border-kld-red/[0.15]
+            bg-dark-200 border border-kld-green/[0.15]
           "
         >
           {/* 카테고리 */}
@@ -139,7 +139,7 @@ export default function EquipmentEditor({
               className="
                 font-ui text-[11px] font-semibold tracking-[0.18em] uppercase
                 text-gray-light border border-white/10 px-3 py-2
-                hover:border-kld-red hover:text-kld-red transition-colors
+                hover:border-kld-green hover:text-kld-green transition-colors
               "
             >
               삭제
@@ -154,9 +154,9 @@ export default function EquipmentEditor({
         onClick={addItem}
         className="
           font-ui text-[12px] font-bold tracking-[0.22em] uppercase
-          text-kld-red border border-kld-red/50 border-dashed
+          text-kld-green border border-kld-green/50 border-dashed
           px-4 py-3
-          hover:border-kld-red hover:bg-kld-red/[0.05] transition-colors
+          hover:border-kld-green hover:bg-kld-green/[0.05] transition-colors
         "
       >
         + 장비 추가

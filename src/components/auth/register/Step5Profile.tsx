@@ -66,7 +66,7 @@ export default function Step5Profile({
   return (
     <div>
       <div className="mb-8">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-3">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase mb-3">
           Step 05 · Profile
         </div>
         <h2 className="font-display text-[clamp(28px,3.5vw,40px)] leading-[1.05] tracking-[0.02em] text-white-kld mb-2">
@@ -145,7 +145,7 @@ export default function Step5Profile({
             주 사용 손
           </span>
           <div
-            className="flex border border-kld-red/20"
+            className="flex border border-kld-green/20"
             role="radiogroup"
             aria-label="주 사용 손"
           >
@@ -160,10 +160,10 @@ export default function Step5Profile({
                   onClick={() => update("dominantHand", opt)}
                   className={`
                     flex-1 font-ui text-[12px] font-semibold tracking-[0.14em]
-                    px-4 py-3 border-r border-kld-red/20 last:border-r-0
+                    px-4 py-3 border-r border-kld-green/20 last:border-r-0
                     transition-colors
                     ${active
-                      ? "bg-kld-red text-white-kld"
+                      ? "bg-kld-green text-kld-black"
                       : "text-gray-mid hover:text-white-kld"}
                   `}
                 >
@@ -209,7 +209,7 @@ export default function Step5Profile({
             className="
               font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
               border border-white/10 px-5 py-3
-              hover:border-kld-red hover:text-white-kld transition-colors
+              hover:border-kld-green hover:text-white-kld transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
@@ -220,9 +220,9 @@ export default function Step5Profile({
             disabled={loading || !canSubmit}
             className="
               inline-flex items-center justify-center
-              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-              bg-kld-red px-6 py-4
-              hover:bg-kld-red-light transition-colors
+              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+              bg-kld-green px-6 py-4
+              hover:bg-kld-green-600 transition-colors
               disabled:opacity-40 disabled:cursor-not-allowed
             "
           >
@@ -270,7 +270,7 @@ function Field({ label, htmlFor, required, children }: FieldProps) {
       >
         {label}
         {required ? (
-          <span className="text-kld-red" aria-hidden="true">
+          <span className="text-kld-green" aria-hidden="true">
             *
           </span>
         ) : null}

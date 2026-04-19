@@ -82,7 +82,7 @@ export default function MemberApprovalTable() {
           aria-label="정회원 승인 대기 목록"
         >
           <thead>
-            <tr className="border-b border-kld-red/25">
+            <tr className="border-b border-kld-green/25">
               <Th>이름</Th>
               <Th>이메일</Th>
               <Th className="hidden md:table-cell">신청 일시</Th>
@@ -109,7 +109,7 @@ export default function MemberApprovalTable() {
                 return (
                   <tr
                     key={m.userId}
-                    className="border-b border-white/[0.04] hover:bg-kld-red/[0.03] transition-colors"
+                    className="border-b border-white/[0.04] hover:bg-kld-green/[0.03] transition-colors"
                   >
                     <td className="px-3 py-4 text-sm text-white-kld font-medium">
                       {m.name}
@@ -121,7 +121,7 @@ export default function MemberApprovalTable() {
                       {formatDateTime(m.requestedAt)}
                     </td>
                     <td className="hidden md:table-cell px-3 py-4">
-                      <span className="font-mono text-[10px] tracking-[0.18em] text-kld-red uppercase border border-kld-red/40 px-2 py-0.5">
+                      <span className="font-mono text-[10px] tracking-[0.18em] text-kld-green uppercase border border-kld-green/40 px-2 py-0.5">
                         {m.paymentMethod === "code" ? "Code" : "Online"}
                       </span>
                     </td>
@@ -135,8 +135,8 @@ export default function MemberApprovalTable() {
                           }
                           className="
                             font-ui text-[11px] font-bold tracking-[0.18em] uppercase
-                            text-white-kld bg-kld-red px-3.5 py-2
-                            hover:bg-kld-red-light transition-colors
+                            text-white-kld bg-kld-green px-3.5 py-2
+                            hover:bg-kld-green-600 transition-colors
                             disabled:opacity-50 disabled:cursor-not-allowed
                           "
                         >
@@ -151,7 +151,7 @@ export default function MemberApprovalTable() {
                           className="
                             font-ui text-[11px] font-semibold tracking-[0.18em] uppercase
                             text-gray-light border border-white/10 px-3.5 py-2
-                            hover:border-kld-red hover:text-kld-red transition-colors
+                            hover:border-kld-green hover:text-kld-green transition-colors
                             disabled:opacity-50 disabled:cursor-not-allowed
                           "
                         >

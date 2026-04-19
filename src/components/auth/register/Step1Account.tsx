@@ -51,7 +51,7 @@ export default function Step1Account({
     <div>
       {/* ── 헤더 ── */}
       <div className="mb-8">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-3">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase mb-3">
           Step 01 · Account
         </div>
         <h2 className="font-display text-[clamp(28px,3.5vw,40px)] leading-[1.05] tracking-[0.02em] text-white-kld mb-2">
@@ -127,9 +127,9 @@ export default function Step1Account({
           disabled={loading}
           className="
             mt-2 inline-flex items-center justify-center
-            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-4
-            hover:bg-kld-red-light transition-colors
+            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+            bg-kld-green px-6 py-4
+            hover:bg-kld-green-600 transition-colors
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >

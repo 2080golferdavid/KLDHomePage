@@ -78,7 +78,7 @@ export default function Step3Terms({
   return (
     <div>
       <div className="mb-8">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-3">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase mb-3">
           Step 03 · Terms
         </div>
         <h2 className="font-display text-[clamp(28px,3.5vw,40px)] leading-[1.05] tracking-[0.02em] text-white-kld mb-2">
@@ -95,8 +95,8 @@ export default function Step3Terms({
         className="
           flex items-center gap-3 cursor-pointer
           p-4 mb-2
-          border border-kld-red/30 bg-kld-red/[0.04]
-          hover:border-kld-red/60 transition-colors
+          border border-kld-green/30 bg-kld-green/[0.04]
+          hover:border-kld-green/60 transition-colors
         "
       >
         <input
@@ -107,9 +107,9 @@ export default function Step3Terms({
         />
         <span
           className="
-            w-5 h-5 border border-kld-red/40
+            w-5 h-5 border border-kld-green/40
             flex items-center justify-center shrink-0
-            peer-checked:bg-kld-red peer-checked:border-kld-red
+            peer-checked:bg-kld-green peer-checked:border-kld-green
           "
           aria-hidden="true"
         >
@@ -137,7 +137,7 @@ export default function Step3Terms({
                 className="
                   w-5 h-5 mt-0.5 border border-white/20
                   flex items-center justify-center shrink-0
-                  peer-checked:bg-kld-red peer-checked:border-kld-red
+                  peer-checked:bg-kld-green peer-checked:border-kld-green
                 "
                 aria-hidden="true"
               >
@@ -157,7 +157,7 @@ export default function Step3Terms({
                       font-mono text-[9px] tracking-[0.2em] uppercase
                       px-1.5 py-0.5 border
                       ${item.required
-                        ? "text-kld-red border-kld-red/50"
+                        ? "text-kld-green border-kld-green/50"
                         : "text-gray-mid border-white/15"}
                     `}
                   >
@@ -173,7 +173,7 @@ export default function Step3Terms({
                 onClick={(e) => e.preventDefault()}
                 className="
                   font-mono text-[10px] tracking-[0.18em] uppercase
-                  text-gray-mid hover:text-kld-red transition-colors
+                  text-gray-mid hover:text-kld-green transition-colors
                   shrink-0 mt-1
                 "
               >
@@ -192,7 +192,7 @@ export default function Step3Terms({
           className="
             font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
             border border-white/10 px-5 py-3
-            hover:border-kld-red hover:text-white-kld transition-colors
+            hover:border-kld-green hover:text-white-kld transition-colors
           "
         >
           ← 이전
@@ -203,9 +203,9 @@ export default function Step3Terms({
           onClick={() => onSubmit(terms)}
           className="
             inline-flex items-center justify-center
-            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-4
-            hover:bg-kld-red-light transition-colors
+            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+            bg-kld-green px-6 py-4
+            hover:bg-kld-green-600 transition-colors
             disabled:opacity-40 disabled:cursor-not-allowed
           "
         >

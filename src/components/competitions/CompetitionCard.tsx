@@ -1,105 +1,156 @@
 import Link from "next/link";
 import type { Competition } from "@/types";
 
-/* ── Props 타입 (컴포넌트 바로 위에 배치) ── */
+/* ── Props 타입 ── */
 interface CompetitionCardProps {
   competition: Competition;
 }
 
 /**
- * 예정된 대회(Competition)를 표시하는 카드(Card) 컴포넌트
- *
- * 구성:
- * - 상단: 라운드 배지 + 시즌 라벨
- * - 타이틀
- * - 메타(일정, 장소)
- * - 디비전 태그 목록
- * - 하단: 신청 버튼(applyLink가 있을 때만 렌더링)
+ * 예정된 대회 카드.
+ * 레퍼런스의 `.panel` 틀 + 방송형 헤더(라운드 스탬프 + 시즌 라벨)를 조합.
  */
-export default function CompetitionCard({ competition }: CompetitionCardProps) {
+export default function CompetitionCard({
+  competition,
+}: CompetitionCardProps) {
   return (
     <article
-      className="
-        flex flex-col bg-dark-200
-        border border-kld-red/[0.15]
-        p-6 md:p-7
-        hover:border-kld-red/40 transition-colors
-        reveal
-      "
+      className="panel reveal"
       aria-label={`${competition.title} 대회`}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "28px 24px 24px",
+        borderTop: "2px solid var(--accent)",
+        gap: 0,
+      }}
     >
-      {/* ── 상단: 라운드 배지 + 시즌 ── */}
-      <header className="flex items-center justify-between mb-5 gap-3">
+      <header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          marginBottom: 18,
+        }}
+      >
         <div
-          className="
-            font-display text-[22px] leading-none text-kld-red
-            border border-kld-red/40 px-2.5 py-1.5
-            tracking-[0.04em]
-          "
           aria-hidden="true"
+          style={{
+            fontFamily: "var(--kld-font-display)",
+            fontWeight: 900,
+            fontStyle: "italic",
+            fontSize: 32,
+            color: "var(--accent)",
+            lineHeight: 1,
+            letterSpacing: "-0.02em",
+          }}
         >
           R{String(competition.round).padStart(2, "0")}
         </div>
-        <div className="font-mono text-[10px] tracking-[0.2em] text-gray-mid uppercase text-right">
+        <div
+          className="kld-caption-mono"
+          style={{ textAlign: "right", color: "var(--kld-fg-3)" }}
+        >
           {competition.season}
         </div>
       </header>
 
-      {/* ── 타이틀 ── */}
       <h3
-        className="
-          font-display text-[clamp(20px,2vw,26px)]
-          tracking-[0.03em] leading-[1.15]
-          text-white-kld mb-5
-        "
+        style={{
+          fontFamily: "var(--kld-font-sans)",
+          fontSize: 18,
+          fontWeight: 600,
+          color: "#fff",
+          lineHeight: 1.3,
+          margin: "0 0 18px",
+        }}
       >
         {competition.title}
       </h3>
 
-      {/* ── 메타 정보(일정 / 장소) ── */}
-      <dl className="flex flex-col gap-3 mb-6 text-sm">
-        {/* 일정 */}
-        <div className="flex items-start gap-3">
-          <span
-            className="
-              w-7 h-7 border border-kld-red/[0.28]
-              flex items-center justify-center text-[12px] shrink-0
-            "
-            aria-hidden="true"
-          >
-            📅
-          </span>
+      <dl
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 14,
+          marginBottom: 20,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+          <div className="meta-icon" aria-hidden="true">
+            <svg
+              width={14}
+              height={14}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <rect x={3} y={4} width={18} height={18} rx={0} />
+              <path d="M8 2v4M16 2v4M3 10h18" />
+            </svg>
+          </div>
           <div>
             <dt className="sr-only">일정</dt>
-            <dd className="text-white-kld font-medium leading-tight">
+            <dd
+              style={{
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 500,
+                margin: 0,
+              }}
+            >
               {competition.date}
             </dd>
             {competition.dateNote ? (
-              <dd className="text-gray-mid text-[12px] font-light mt-0.5">
+              <dd
+                style={{
+                  color: "var(--kld-fg-3)",
+                  fontSize: 12,
+                  marginTop: 2,
+                }}
+              >
                 {competition.dateNote}
               </dd>
             ) : null}
           </div>
         </div>
 
-        {/* 장소 */}
-        <div className="flex items-start gap-3">
-          <span
-            className="
-              w-7 h-7 border border-kld-red/[0.28]
-              flex items-center justify-center text-[12px] shrink-0
-            "
-            aria-hidden="true"
-          >
-            📍
-          </span>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+          <div className="meta-icon" aria-hidden="true">
+            <svg
+              width={14}
+              height={14}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z" />
+              <circle cx={12} cy={9} r={2.5} />
+            </svg>
+          </div>
           <div>
             <dt className="sr-only">장소</dt>
-            <dd className="text-white-kld font-medium leading-tight">
+            <dd
+              style={{
+                color: "#fff",
+                fontSize: 14,
+                fontWeight: 500,
+                margin: 0,
+              }}
+            >
               {competition.location}
             </dd>
             {competition.locationDetail ? (
-              <dd className="text-gray-mid text-[12px] font-light mt-0.5">
+              <dd
+                style={{
+                  color: "var(--kld-fg-3)",
+                  fontSize: 12,
+                  marginTop: 2,
+                }}
+              >
                 {competition.locationDetail}
               </dd>
             ) : null}
@@ -107,39 +158,21 @@ export default function CompetitionCard({ competition }: CompetitionCardProps) {
         </div>
       </dl>
 
-      {/* ── 디비전 태그 ── */}
-      <div
-        className="flex gap-1.5 flex-wrap mb-7"
-        role="list"
-        aria-label="참가 디비전"
-      >
-        {competition.divisions.map((div) => (
-          <div
-            key={div}
-            className="
-              font-ui text-[10px] font-semibold tracking-[0.14em] uppercase
-              px-2.5 py-1 border border-kld-red/60 text-kld-red
-              bg-kld-red/[0.08]
-            "
-            role="listitem"
-          >
-            {div}
-          </div>
+      <div className="divisions" aria-label="참가 디비전">
+        {competition.divisions.map((d) => (
+          <span key={d} className="div-chip">
+            {d}
+          </span>
         ))}
       </div>
 
-      {/* ── 하단: 신청 버튼(예정 대회에만 존재) ── */}
       {competition.applyLink ? (
         <Link
           href={competition.applyLink}
-          className="
-            mt-auto inline-flex items-center justify-center
-            font-ui text-[12px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-3
-            hover:bg-kld-red-light transition-colors
-          "
+          className="btn btn-primary"
+          style={{ marginTop: "auto" }}
         >
-          지금 신청하기 &rarr;
+          지금 신청하기 <span className="arrow">→</span>
         </Link>
       ) : null}
     </article>

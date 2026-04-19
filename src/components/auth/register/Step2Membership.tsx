@@ -27,7 +27,7 @@ export default function Step2Membership({
   return (
     <div>
       <div className="mb-8">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-3">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase mb-3">
           Step 02 · Membership
         </div>
         <h2 className="font-display text-[clamp(28px,3.5vw,40px)] leading-[1.05] tracking-[0.02em] text-white-kld mb-2">
@@ -77,7 +77,7 @@ export default function Step2Membership({
           className="
             font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
             border border-white/10 px-5 py-3
-            hover:border-kld-red hover:text-white-kld transition-colors
+            hover:border-kld-green hover:text-white-kld transition-colors
           "
         >
           ← 이전
@@ -88,9 +88,9 @@ export default function Step2Membership({
           onClick={() => selected && onSubmit(selected)}
           className="
             inline-flex items-center justify-center
-            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-4
-            hover:bg-kld-red-light transition-colors
+            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+            bg-kld-green px-6 py-4
+            hover:bg-kld-green-600 transition-colors
             disabled:opacity-40 disabled:cursor-not-allowed
           "
         >
@@ -134,17 +134,17 @@ function TierCard({
         p-6 md:p-7
         bg-dark-200 border transition-all
         ${isSelected
-          ? "border-kld-red ring-1 ring-kld-red"
-          : "border-kld-red/[0.15] hover:border-kld-red/50"}
+          ? "border-kld-green ring-1 ring-kld-green"
+          : "border-kld-green/[0.15] hover:border-kld-green/50"}
       `}
     >
       {emphasized ? (
-        <div className="absolute top-0 right-0 font-mono text-[9px] tracking-[0.2em] uppercase bg-kld-red text-white-kld px-2.5 py-1">
+        <div className="absolute top-0 right-0 font-mono text-[9px] tracking-[0.2em] uppercase bg-kld-green text-kld-black px-2.5 py-1">
           Recommended
         </div>
       ) : null}
 
-      <div className="font-mono text-[10px] tracking-[0.22em] text-kld-red uppercase mb-2">
+      <div className="font-mono text-[10px] tracking-[0.22em] text-kld-green uppercase mb-2">
         {subtitle}
       </div>
       <div className="font-display text-[32px] leading-none tracking-[0.02em] text-white-kld mb-5">
@@ -158,7 +158,7 @@ function TierCard({
             className="flex items-start gap-2 text-[13px] font-light text-gray-light"
           >
             <span
-              className="text-kld-red mt-0.5 shrink-0"
+              className="text-kld-green mt-0.5 shrink-0"
               aria-hidden="true"
             >
               ▸
@@ -173,8 +173,8 @@ function TierCard({
           mt-auto font-ui text-[11px] font-bold tracking-[0.2em] uppercase
           border px-3 py-2 text-center
           ${isSelected
-            ? "bg-kld-red border-kld-red text-white-kld"
-            : "border-white/10 text-gray-light group-hover:border-kld-red/60"}
+            ? "bg-kld-green border-kld-green text-kld-black"
+            : "border-white/10 text-gray-light group-hover:border-kld-green/60"}
         `}
         aria-hidden="true"
       >

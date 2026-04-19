@@ -105,8 +105,8 @@ export default function PaymentCodesTable() {
           disabled={issuing}
           className="
             font-ui text-[12px] font-bold tracking-[0.2em] uppercase
-            text-white-kld bg-kld-red px-5 py-3
-            hover:bg-kld-red-light transition-colors
+            text-white-kld bg-kld-green px-5 py-3
+            hover:bg-kld-green-600 transition-colors
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >
@@ -118,7 +118,7 @@ export default function PaymentCodesTable() {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" aria-label="인증코드 목록">
           <thead>
-            <tr className="border-b border-kld-red/25">
+            <tr className="border-b border-kld-green/25">
               <Th>코드</Th>
               <Th className="hidden md:table-cell">발급일</Th>
               <Th className="hidden md:table-cell">사용자</Th>
@@ -147,7 +147,7 @@ export default function PaymentCodesTable() {
                 return (
                   <tr
                     key={c.id}
-                    className="border-b border-white/[0.04] hover:bg-kld-red/[0.03] transition-colors"
+                    className="border-b border-white/[0.04] hover:bg-kld-green/[0.03] transition-colors"
                   >
                     {/* 코드 */}
                     <td className="px-3 py-4">
@@ -157,7 +157,7 @@ export default function PaymentCodesTable() {
                         className="
                           font-mono text-[12px] tracking-[0.08em]
                           text-white-kld
-                          hover:text-kld-red transition-colors
+                          hover:text-kld-green transition-colors
                           text-left
                         "
                         title="클릭하면 복사됩니다"
@@ -189,7 +189,7 @@ export default function PaymentCodesTable() {
                           px-2 py-0.5 border
                           ${used
                             ? "text-gray-mid border-white/15"
-                            : "text-kld-red border-kld-red/50"}
+                            : "text-kld-green border-kld-green/50"}
                         `}
                       >
                         {used ? "Used" : "Unused"}
@@ -205,7 +205,7 @@ export default function PaymentCodesTable() {
                         className="
                           font-ui text-[11px] font-semibold tracking-[0.18em] uppercase
                           text-gray-light border border-white/10 px-3.5 py-2
-                          hover:border-kld-red hover:text-kld-red transition-colors
+                          hover:border-kld-green hover:text-kld-green transition-colors
                           disabled:opacity-40 disabled:cursor-not-allowed
                         "
                         aria-label={`${c.code} 폐기`}

@@ -165,7 +165,7 @@ export default function ProfileEditPage() {
     return (
       <div>
         <header className="mb-8">
-          <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-2">
+          <div className="font-mono text-[10px] tracking-[0.26em] text-kld-green uppercase mb-2">
             Profile
           </div>
           <h1 className="font-display text-[clamp(28px,3.5vw,44px)] leading-[1.05] tracking-[0.02em] text-white-kld">
@@ -177,13 +177,13 @@ export default function ProfileEditPage() {
           className="
             flex flex-col items-start gap-5
             p-6 md:p-8
-            bg-kld-red/10 border border-kld-red/40
+            bg-kld-green/10 border border-kld-green/40
           "
         >
           <div
             className="
               inline-flex items-center justify-center
-              w-10 h-10 border border-kld-red text-kld-red
+              w-10 h-10 border border-kld-green text-kld-green
               font-display text-[20px]
             "
             aria-hidden="true"
@@ -205,8 +205,8 @@ export default function ProfileEditPage() {
               className="
                 inline-flex items-center justify-center
                 font-ui text-[12px] font-bold tracking-[0.22em] uppercase text-white-kld
-                bg-kld-red px-5 py-3
-                hover:bg-kld-red-light transition-colors
+                bg-kld-green px-5 py-3
+                hover:bg-kld-green-600 transition-colors
               "
             >
               정회원 전환하기 →
@@ -217,7 +217,7 @@ export default function ProfileEditPage() {
                 inline-flex items-center justify-center
                 font-ui text-[12px] font-semibold tracking-[0.22em] uppercase text-gray-light
                 border border-white/10 px-5 py-3
-                hover:border-kld-red hover:text-white-kld transition-colors
+                hover:border-kld-green hover:text-white-kld transition-colors
               "
             >
               대시보드로
@@ -239,7 +239,7 @@ export default function ProfileEditPage() {
     >
       {/* ── 헤더 ── */}
       <header>
-        <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-2">
+        <div className="font-mono text-[10px] tracking-[0.26em] text-kld-green uppercase mb-2">
           Profile
         </div>
         <h1 className="font-display text-[clamp(28px,3.5vw,44px)] leading-[1.05] tracking-[0.02em] text-white-kld">
@@ -256,7 +256,7 @@ export default function ProfileEditPage() {
       ════════════════════ */}
       <section
         aria-label="수정 가능 항목"
-        className="bg-white-kld border border-black/[0.08] p-6 md:p-8"
+        className="bg-dark-100 border border-white/[0.08] p-6 md:p-8"
       >
         <SectionTitle
           tag="Editable"
@@ -278,7 +278,7 @@ export default function ProfileEditPage() {
                   onUploaded={(url) => update("photoUrl", url)}
                 />
               ) : (
-                <div className="text-[13px] text-[#666]">
+                <div className="text-[13px] text-gray-mid">
                   선수 프로필 생성 후 사진을 업로드할 수 있습니다.
                 </div>
               )}
@@ -335,7 +335,7 @@ export default function ProfileEditPage() {
             <div
               className={`
                 mt-1 font-mono text-[10px] tracking-[0.1em] text-right
-                ${form.bio.length > BIO_LIMIT ? "text-[#C41E1E]" : "text-[#888]"}
+                ${form.bio.length > BIO_LIMIT ? "text-[#C41E1E]" : "text-gray-mid"}
               `}
             >
               {form.bio.length} / {BIO_LIMIT}
@@ -442,7 +442,7 @@ export default function ProfileEditPage() {
       ════════════════════ */}
       <section
         aria-label="수정 불가 항목"
-        className="bg-[#EAEAEA] border border-black/[0.08] p-6 md:p-8"
+        className="bg-[#EAEAEA] border border-white/[0.08] p-6 md:p-8"
       >
         <SectionTitle
           tag="Read-only"
@@ -483,10 +483,10 @@ export default function ProfileEditPage() {
           {/* 우승 / 입상 이력 */}
           <div>
             <FieldLabel locked>우승 / 입상 이력</FieldLabel>
-            <ul className="mt-3 bg-white border border-black/[0.08] divide-y divide-black/[0.06]">
+            <ul className="mt-3 bg-white border border-white/[0.08] divide-y divide-white/[0.06]">
               {(profile?.results ?? []).filter((r) => r.placement <= 3)
                 .length === 0 ? (
-                <li className="px-4 py-4 text-[13px] text-[#666] text-center">
+                <li className="px-4 py-4 text-[13px] text-gray-mid text-center">
                   입상 이력이 없습니다.
                 </li>
               ) : (
@@ -498,10 +498,10 @@ export default function ProfileEditPage() {
                       className="grid grid-cols-[1fr_auto_auto] items-center gap-3 px-4 py-3"
                     >
                       <div className="min-w-0">
-                        <div className="text-sm text-[#080808] font-semibold truncate">
+                        <div className="text-sm text-white-kld font-semibold truncate">
                           {r.competitionTitle}
                         </div>
-                        <div className="font-mono text-[11px] text-[#666] mt-0.5">
+                        <div className="font-mono text-[11px] text-gray-mid mt-0.5">
                           {r.date} · {r.division}
                         </div>
                       </div>
@@ -509,15 +509,15 @@ export default function ProfileEditPage() {
                         className={`
                           font-display text-[14px] px-2 py-1
                           ${r.placement === 1
-                            ? "bg-kld-red/15 border border-kld-red text-kld-red"
-                            : "border border-black/10 text-[#444]"}
+                            ? "bg-kld-green/15 border border-kld-green text-kld-green"
+                            : "border border-white/10 text-gray-light"}
                         `}
                       >
                         {r.placement}위
                       </span>
-                      <span className="font-display text-[16px] text-[#080808]">
+                      <span className="font-display text-[16px] text-white-kld">
                         {r.distance}
-                        <span className="font-mono text-[10px] text-[#666] ml-0.5">
+                        <span className="font-mono text-[10px] text-gray-mid ml-0.5">
                           m
                         </span>
                       </span>
@@ -530,9 +530,9 @@ export default function ProfileEditPage() {
           {/* 대회 출전 기록 전체 */}
           <div>
             <FieldLabel locked>대회 출전 기록</FieldLabel>
-            <ul className="mt-3 bg-white border border-black/[0.08] divide-y divide-black/[0.06]">
+            <ul className="mt-3 bg-white border border-white/[0.08] divide-y divide-white/[0.06]">
               {(profile?.results ?? []).length === 0 ? (
-                <li className="px-4 py-4 text-[13px] text-[#666] text-center">
+                <li className="px-4 py-4 text-[13px] text-gray-mid text-center">
                   출전 기록이 없습니다.
                 </li>
               ) : (
@@ -542,17 +542,17 @@ export default function ProfileEditPage() {
                     className="grid grid-cols-[1fr_auto_auto] items-center gap-3 px-4 py-3"
                   >
                     <div className="min-w-0">
-                      <div className="text-sm text-[#080808] truncate">
+                      <div className="text-sm text-white-kld truncate">
                         {r.competitionTitle}
                       </div>
-                      <div className="font-mono text-[11px] text-[#666] mt-0.5">
+                      <div className="font-mono text-[11px] text-gray-mid mt-0.5">
                         {r.date}
                       </div>
                     </div>
-                    <span className="font-mono text-[11px] text-[#666]">
+                    <span className="font-mono text-[11px] text-gray-mid">
                       {r.placement}위
                     </span>
-                    <span className="font-display text-[14px] text-[#080808]">
+                    <span className="font-display text-[14px] text-white-kld">
                       {r.distance}m
                     </span>
                   </li>
@@ -569,7 +569,7 @@ export default function ProfileEditPage() {
       <div
         className="
           fixed bottom-0 left-0 right-0 z-[100]
-          bg-dark-200/95 border-t border-kld-red/30
+          bg-dark-200/95 border-t border-kld-green/30
           backdrop-blur-sm
           px-5 md:px-8 py-3.5
         "
@@ -577,7 +577,7 @@ export default function ProfileEditPage() {
         <div className="max-w-[1240px] mx-auto flex items-center justify-between gap-3">
           <div className="font-mono text-[11px] tracking-[0.18em] uppercase">
             {isDirty ? (
-              <span className="text-kld-red">변경 사항이 있습니다</span>
+              <span className="text-kld-green">변경 사항이 있습니다</span>
             ) : (
               <span className="text-gray-mid">변경 사항 없음</span>
             )}
@@ -590,7 +590,7 @@ export default function ProfileEditPage() {
               className="
                 font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
                 border border-white/15 px-5 py-2.5
-                hover:border-kld-red hover:text-white-kld transition-colors
+                hover:border-kld-green hover:text-white-kld transition-colors
                 disabled:opacity-40 disabled:cursor-not-allowed
               "
             >
@@ -602,8 +602,8 @@ export default function ProfileEditPage() {
               className="
                 inline-flex items-center justify-center
                 font-ui text-[12px] font-bold tracking-[0.22em] uppercase text-white-kld
-                bg-kld-red px-5 py-2.5
-                hover:bg-kld-red-light transition-colors
+                bg-kld-green px-5 py-2.5
+                hover:bg-kld-green-600 transition-colors
                 disabled:opacity-40 disabled:cursor-not-allowed
               "
             >
@@ -711,10 +711,10 @@ interface SectionTitleProps {
 function SectionTitle({ tag, title, description, tone }: SectionTitleProps) {
   const tagClass =
     tone === "editable"
-      ? "text-kld-red border-kld-red/60"
-      : "text-[#666] border-black/20";
-  const titleColor = tone === "editable" ? "text-[#080808]" : "text-[#333]";
-  const descColor = tone === "editable" ? "text-[#555]" : "text-[#666]";
+      ? "text-kld-green border-kld-green/60"
+      : "text-gray-mid border-black/20";
+  const titleColor = tone === "editable" ? "text-white-kld" : "text-white-kld";
+  const descColor = tone === "editable" ? "text-[#555]" : "text-gray-mid";
 
   return (
     <div className="flex flex-col gap-2">
@@ -730,7 +730,7 @@ function SectionTitle({ tag, title, description, tone }: SectionTitleProps) {
         </span>
         {tone === "locked" ? (
           <span
-            className="font-mono text-[10px] text-[#888]"
+            className="font-mono text-[10px] text-gray-mid"
             aria-hidden="true"
           >
             🔒
@@ -758,7 +758,7 @@ function FieldLabel({ children, locked }: FieldLabelProps) {
       className={`
         font-mono text-[10px] tracking-[0.22em] uppercase
         flex items-center gap-2
-        ${locked ? "text-[#888]" : "text-[#555]"}
+        ${locked ? "text-gray-mid" : "text-[#555]"}
       `}
     >
       {locked ? (
@@ -787,7 +787,7 @@ function LightField({ label, htmlFor, required, children }: LightFieldProps) {
       >
         {label}
         {required ? (
-          <span className="text-kld-red" aria-hidden="true">
+          <span className="text-kld-green" aria-hidden="true">
             *
           </span>
         ) : null}
@@ -809,12 +809,12 @@ function LockedRow({ label, value }: LockedRowProps) {
         grid grid-cols-[120px_1fr] md:grid-cols-[160px_1fr] gap-3
         items-center
         p-4
-        bg-white border border-black/[0.08]
+        bg-white border border-white/[0.08]
       "
       title="관리자 문의"
     >
       <FieldLabel locked>{label}</FieldLabel>
-      <div className="font-ui text-sm font-semibold text-[#333]">{value}</div>
+      <div className="font-ui text-sm font-semibold text-white-kld">{value}</div>
     </div>
   );
 }
@@ -827,11 +827,11 @@ interface LockedCardProps {
 function LockedCard({ label, value }: LockedCardProps) {
   return (
     <div
-      className="flex flex-col p-4 bg-white border border-black/[0.08]"
+      className="flex flex-col p-4 bg-white border border-white/[0.08]"
       title="관리자 문의"
     >
       <FieldLabel locked>{label}</FieldLabel>
-      <div className="font-display text-[clamp(18px,2vw,24px)] leading-none text-[#333] mt-2">
+      <div className="font-display text-[clamp(18px,2vw,24px)] leading-none text-white-kld mt-2">
         {value}
       </div>
     </div>

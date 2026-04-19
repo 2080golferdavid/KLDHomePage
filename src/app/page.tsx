@@ -2,49 +2,36 @@
 
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import HeroSection from "@/components/sections/HeroSection";
-import TickerSection from "@/components/sections/TickerSection";
 import NextEventSection from "@/components/sections/NextEventSection";
 import StatsSection from "@/components/sections/StatsSection";
 import RankingsSection from "@/components/sections/RankingsSection";
 import PlayersSection from "@/components/sections/PlayersSection";
 import MediaSection from "@/components/sections/MediaSection";
 import NoticeSection from "@/components/sections/NoticeSection";
+import SponsorsSection from "@/components/sections/SponsorsSection";
 
 /**
  * KLD 홈페이지
- * 모든 섹션 컴포넌트를 순서대로 조립한다.
- * 각 섹션은 독립적으로 동작하며, 이 파일에서는 배치만 담당한다.
+ * 레퍼런스(reference/designreference0419) 구성 — Hero → NextEvent → Stats →
+ * Rankings → Players → Media → Notices → Sponsors 순서로 조립한다.
+ * Ticker·Nav·Footer 는 layout.tsx 에서 공통으로 렌더링되므로 여기서는 제외.
  */
 export default function HomePage() {
   /* 스크롤 시 .reveal 요소에 등장 애니메이션을 적용한다. */
   useScrollReveal();
 
-  /* Nav와 Footer는 layout.tsx에서 공통으로 렌더링되므로 이 파일에서는 제외한다. */
+  /* 티커가 28px, Nav 가 72px 로 고정 — 히어로 배경이 상단까지 채워지도록
+     main 자체에는 패딩을 주지 않는다. hero 섹션이 자체 160px 상단 패딩으로 보정. */
   return (
     <main>
-      {/* 히어로 — 풀스크린 메인 비주얼 */}
       <HeroSection />
-
-      {/* 티커 — 대회 결과 무한 스크롤 */}
-      <TickerSection />
-
-      {/* 다음 대회 정보 */}
       <NextEventSection />
-
-      {/* 시즌 통계 바 */}
       <StatsSection />
-
-      {/* 시즌 랭킹 테이블 */}
       <RankingsSection />
-
-      {/* 이달의 선수 카드 */}
       <PlayersSection />
-
-      {/* 미디어 하이라이트 */}
       <MediaSection />
-
-      {/* 공지사항 */}
       <NoticeSection />
+      <SponsorsSection />
     </main>
   );
 }

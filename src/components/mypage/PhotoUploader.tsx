@@ -65,7 +65,7 @@ export default function PhotoUploader({
         className="
           relative shrink-0
           w-[120px] h-[150px] md:w-[140px] md:h-[175px]
-          border border-kld-red/30
+          border border-kld-green/30
           overflow-hidden
           disabled:opacity-60
         "
@@ -85,7 +85,7 @@ export default function PhotoUploader({
           <span
             className="
               absolute inset-0 flex items-center justify-center
-              font-display text-[52px] text-kld-red tracking-[0.04em]
+              font-display text-[52px] text-kld-green tracking-[0.04em]
             "
             aria-hidden="true"
           >
@@ -114,7 +114,7 @@ export default function PhotoUploader({
 
       {/* ── 안내 + 버튼 ── */}
       <div className="flex flex-col gap-3">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase">
           Profile Photo
         </div>
         <p className="text-[13px] font-light leading-[1.6] text-gray-light">
@@ -128,8 +128,8 @@ export default function PhotoUploader({
             disabled={loading}
             className="
               font-ui text-[11px] font-bold tracking-[0.2em] uppercase
-              text-kld-red border border-kld-red px-4 py-2
-              hover:bg-kld-red hover:text-white-kld transition-colors
+              text-kld-green border border-kld-green px-4 py-2
+              hover:bg-kld-green hover:text-white-kld transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
@@ -143,7 +143,7 @@ export default function PhotoUploader({
               className="
                 font-ui text-[11px] font-semibold tracking-[0.2em] uppercase
                 text-gray-light border border-white/10 px-4 py-2
-                hover:border-kld-red hover:text-white-kld transition-colors
+                hover:border-kld-green hover:text-white-kld transition-colors
                 disabled:opacity-50 disabled:cursor-not-allowed
               "
             >

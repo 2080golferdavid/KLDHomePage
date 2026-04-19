@@ -26,7 +26,7 @@ export default function ReadOnlyStats({ player }: ReadOnlyStatsProps) {
         className="
           flex items-start gap-3
           p-4
-          bg-kld-red/[0.06] border border-kld-red/30
+          bg-kld-green/[0.06] border border-kld-green/30
         "
         role="note"
       >
@@ -34,7 +34,7 @@ export default function ReadOnlyStats({ player }: ReadOnlyStatsProps) {
           className="
             mt-0.5 shrink-0
             inline-flex items-center justify-center
-            w-5 h-5 border border-kld-red text-kld-red
+            w-5 h-5 border border-kld-green text-kld-green
             font-mono text-[11px]
           "
           aria-hidden="true"
@@ -42,7 +42,7 @@ export default function ReadOnlyStats({ player }: ReadOnlyStatsProps) {
           !
         </span>
         <div>
-          <div className="font-ui text-[12px] font-bold tracking-[0.14em] uppercase text-kld-red mb-1">
+          <div className="font-ui text-[12px] font-bold tracking-[0.14em] uppercase text-kld-green mb-1">
             Admin Only
           </div>
           <p className="text-[13px] font-light leading-[1.6] text-gray-light">
@@ -114,7 +114,7 @@ export default function ReadOnlyStats({ player }: ReadOnlyStatsProps) {
                     min-w-[42px] px-2 py-1
                     font-display text-[13px] tracking-[0.04em]
                     ${r.placement === 1
-                      ? "bg-kld-red/20 border border-kld-red text-kld-red"
+                      ? "bg-kld-green/20 border border-kld-green text-kld-green"
                       : "border border-white/10 text-gray-light"}
                   `}
                 >

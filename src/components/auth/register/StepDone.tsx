@@ -23,16 +23,16 @@ export default function StepDone({ data }: StepDoneProps) {
       <div
         className="
           w-[84px] h-[84px] mb-7
-          border-2 border-kld-red
+          border-2 border-kld-green
           flex items-center justify-center
-          font-display text-[48px] text-kld-red
+          font-display text-[48px] text-kld-green
         "
         aria-hidden="true"
       >
         ✓
       </div>
 
-      <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-3">
+      <div className="font-mono text-[10px] tracking-[0.26em] text-kld-green uppercase mb-3">
         Welcome to KLD
       </div>
       <h2 className="font-display text-[clamp(32px,4vw,52px)] leading-[1.02] tracking-[0.02em] text-white-kld mb-4">
@@ -66,9 +66,9 @@ export default function StepDone({ data }: StepDoneProps) {
           href={data.membership === "full" ? "/competitions" : "/players"}
           className="
             flex-1 inline-flex items-center justify-center
-            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-4
-            hover:bg-kld-red-light transition-colors
+            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+            bg-kld-green px-6 py-4
+            hover:bg-kld-green-600 transition-colors
           "
         >
           {data.membership === "full" ? "대회 둘러보기" : "선수 둘러보기"} →
@@ -79,7 +79,7 @@ export default function StepDone({ data }: StepDoneProps) {
             flex-1 inline-flex items-center justify-center
             font-ui text-[13px] font-semibold tracking-[0.22em] uppercase text-gray-light
             border border-white/10 px-6 py-4
-            hover:border-kld-red hover:text-white-kld transition-colors
+            hover:border-kld-green hover:text-white-kld transition-colors
           "
         >
           홈으로
@@ -97,7 +97,7 @@ interface SummaryItemProps {
 
 function SummaryItem({ label, value }: SummaryItemProps) {
   return (
-    <div className="flex flex-col gap-1 p-3 bg-dark-200 border border-kld-red/[0.12]">
+    <div className="flex flex-col gap-1 p-3 bg-dark-200 border border-kld-green/[0.12]">
       <dt className="font-mono text-[9px] tracking-[0.22em] text-gray-mid uppercase">
         {label}
       </dt>

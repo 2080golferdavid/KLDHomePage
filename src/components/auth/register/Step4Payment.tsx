@@ -34,7 +34,7 @@ export default function Step4Payment({
   return (
     <div>
       <div className="mb-8">
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-3">
+        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-green uppercase mb-3">
           Step 04 · Payment
         </div>
         <h2 className="font-display text-[clamp(28px,3.5vw,40px)] leading-[1.05] tracking-[0.02em] text-white-kld mb-2">
@@ -49,7 +49,7 @@ export default function Step4Payment({
 
       {/* ── 방식 선택 탭 ── */}
       <div
-        className="flex border border-kld-red/20 mb-6"
+        className="flex border border-kld-green/20 mb-6"
         role="tablist"
         aria-label="납부 방식 선택"
       >
@@ -60,9 +60,9 @@ export default function Step4Payment({
           onClick={() => setMethod("online")}
           className={`
             flex-1 font-ui text-[12px] font-semibold tracking-[0.14em] uppercase
-            px-4 py-3 border-r border-kld-red/20 transition-colors
+            px-4 py-3 border-r border-kld-green/20 transition-colors
             ${method === "online"
-              ? "bg-kld-red text-white-kld"
+              ? "bg-kld-green text-kld-black"
               : "text-gray-mid hover:text-white-kld"}
           `}
         >
@@ -77,7 +77,7 @@ export default function Step4Payment({
             flex-1 font-ui text-[12px] font-semibold tracking-[0.14em] uppercase
             px-4 py-3 transition-colors
             ${method === "code"
-              ? "bg-kld-red text-white-kld"
+              ? "bg-kld-green text-kld-black"
               : "text-gray-mid hover:text-white-kld"}
           `}
         >
@@ -90,7 +90,7 @@ export default function Step4Payment({
         <div
           className="
             flex flex-col p-6 md:p-7
-            bg-dark-200 border border-kld-red/[0.15] mb-6
+            bg-dark-200 border border-kld-green/[0.15] mb-6
           "
           role="tabpanel"
           aria-label="온라인 결제"
@@ -106,7 +106,7 @@ export default function Step4Payment({
               <dt className="font-mono text-[11px] tracking-[0.18em] text-gray-mid uppercase">
                 결제 금액
               </dt>
-              <dd className="font-display text-[32px] leading-none text-kld-red">
+              <dd className="font-display text-[32px] leading-none text-kld-green">
                 100,000<span className="font-mono text-[11px] text-gray-mid ml-1">KRW</span>
               </dd>
             </div>
@@ -126,9 +126,9 @@ export default function Step4Payment({
             onClick={onPayOnline}
             className="
               inline-flex items-center justify-center
-              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-              bg-kld-red px-6 py-4
-              hover:bg-kld-red-light transition-colors
+              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+              bg-kld-green px-6 py-4
+              hover:bg-kld-green-600 transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
@@ -150,7 +150,7 @@ export default function Step4Payment({
           }}
           className="
             flex flex-col p-6 md:p-7
-            bg-dark-200 border border-kld-red/[0.15] mb-6
+            bg-dark-200 border border-kld-green/[0.15] mb-6
           "
           role="tabpanel"
           aria-label="인증코드 입력"
@@ -168,9 +168,9 @@ export default function Step4Payment({
             placeholder="예) KLD-DEMO-2025"
             className="
               w-full px-4 py-3.5
-              bg-dark-300 border border-kld-red/20
+              bg-dark-300 border border-kld-green/20
               text-sm text-white-kld placeholder:text-gray-mid
-              focus:outline-none focus:border-kld-red
+              focus:outline-none focus:border-kld-green
               font-mono tracking-[0.1em] uppercase
               transition-colors
             "
@@ -184,9 +184,9 @@ export default function Step4Payment({
             disabled={loading}
             className="
               mt-5 inline-flex items-center justify-center
-              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-              bg-kld-red px-6 py-4
-              hover:bg-kld-red-light transition-colors
+              font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-kld-black
+              bg-kld-green px-6 py-4
+              hover:bg-kld-green-600 transition-colors
               disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
@@ -218,7 +218,7 @@ export default function Step4Payment({
           className="
             font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
             border border-white/10 px-5 py-3
-            hover:border-kld-red hover:text-white-kld transition-colors
+            hover:border-kld-green hover:text-white-kld transition-colors
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >

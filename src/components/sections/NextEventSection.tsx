@@ -1,123 +1,130 @@
 import Link from "next/link";
-import { NEXT_EVENT } from "@/constants/siteData";
+import { BI_NEXT_EVENT } from "@/constants/homeData";
 
 /**
- * 다음 대회 정보 섹션
- * 왼쪽에 라운드 번호 비주얼, 오른쪽에 상세 정보를 표시한다.
+ * 다음 대회 섹션 — 좌측 라운드 비주얼 + 우측 상세 정보의 스플릿 카드.
+ * 좌측에는 라운드 번호가 대형 아웃라인 숫자로, 우측에는 시즌/제목/일정/장소/포맷과
+ * 디비전 칩(chip) + 신청 CTA 버튼이 배치된다.
  */
 export default function NextEventSection() {
-  const event = NEXT_EVENT;
+  const e = BI_NEXT_EVENT;
 
   return (
-    <article className="grid grid-cols-1 lg:grid-cols-2 bg-dark-200 min-h-0 lg:min-h-[460px] reveal" aria-label="다음 대회 정보">
-      {/* ── 왼쪽: 라운드 번호 비주얼 ── */}
-      <div
-        className="
-          relative flex items-center justify-center overflow-hidden
-          min-h-[160px] md:min-h-[200px] p-10 lg:p-[60px]
-        "
-        style={{
-          background: `
-            radial-gradient(ellipse at 30% 50%, rgba(196,30,30,0.16) 0%, transparent 60%),
-            linear-gradient(135deg, #141414 0%, #0A0A0A 100%)
-          `,
-        }}
-        aria-hidden="true"
-      >
-        {/* 배경 숫자 */}
-        <div
-          className="
-            absolute right-[-16px] bottom-[-16px]
-            font-display text-[clamp(120px,16vw,200px)] leading-none
-            text-transparent pointer-events-none
-          "
-          style={{ WebkitTextStroke: "1px rgba(196,30,30,0.18)" }}
-        >
-          {event.round}
+    <section id="events" className="sec reveal">
+      <div className="wrap">
+        <div className="sec-head">
+          <div>
+            <div className="sec-eyebrow">NEXT EVENT · 다음 대회</div>
+            <h2 className="sec-title">
+              ROUND 04
+              <span className="kr">4라운드</span>
+            </h2>
+          </div>
         </div>
-        {/* 중앙 배지 */}
-        <div className="relative z-[1] text-center">
-          <span className="font-display text-[clamp(64px,8vw,96px)] leading-none text-kld-red block">
-            {event.round}TH
-          </span>
-          <span className="font-ui text-[13px] tracking-[0.22em] text-gray-mid uppercase">
-            2025 Season Round
-          </span>
-        </div>
-      </div>
+        <span className="sec-num">S01 / 04</span>
 
-      {/* ── 오른쪽: 대회 상세 정보 ── */}
-      <div
-        className="
-          flex flex-col justify-center
-          px-5 md:px-8 lg:px-12 py-8 lg:py-14
-          border-t lg:border-t-0 lg:border-l border-kld-red/[0.15]
-        "
-      >
-        <div className="font-mono text-[10px] tracking-[0.24em] text-kld-red uppercase mb-[18px]">
-          {event.season}
-        </div>
+        <article className="next-event">
+          <div className="next-event-vis">
+            <div className="next-event-backnum" aria-hidden="true">
+              {e.round}
+            </div>
+            <div className="next-event-round">
+              <span className="big">R{String(e.round).padStart(2, "0")}</span>
+              <div className="sub">2025 SEASON · ROUND</div>
+            </div>
+          </div>
 
-        <h2 className="font-display text-[clamp(32px,3.5vw,46px)] tracking-[0.04em] leading-[1.02] text-white-kld mb-7 whitespace-pre-line">
-          {event.title}
-        </h2>
+          <div className="next-event-body">
+            <div className="next-event-season">
+              {e.seasonEn}{" "}
+              <span style={{ color: "var(--kld-fg-3)", marginLeft: 8 }}>
+                / {e.seasonKr}
+              </span>
+            </div>
 
-        {/* 메타 정보: 날짜, 장소, 경기 형식 */}
-        <dl className="flex flex-col gap-3 mb-7">
-          {[
-            { icon: "📅", strong: event.date, sub: event.dateNote },
-            { icon: "📍", strong: event.location, sub: event.locationDetail },
-            { icon: "🏆", strong: event.format, sub: event.formatNote },
-          ].map((meta) => (
-            <div key={meta.icon} className="flex items-center gap-3.5">
-              <div
-                className="
-                  w-[30px] h-[30px] border border-kld-red/[0.28]
-                  flex items-center justify-center text-[13px] shrink-0
-                "
-                aria-hidden="true"
-              >
-                {meta.icon}
+            <h3 className="next-event-title">
+              {e.titleEn1}
+              <br />
+              {e.titleEn2}
+              <span className="kr">{e.titleKr}</span>
+            </h3>
+
+            <div className="next-event-meta">
+              <div className="meta-row">
+                <div className="meta-icon" aria-hidden="true">
+                  <svg
+                    width={14}
+                    height={14}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <rect x={3} y={4} width={18} height={18} rx={0} />
+                    <path d="M8 2v4M16 2v4M3 10h18" />
+                  </svg>
+                </div>
+                <div>
+                  <span className="strong">{e.date}</span>
+                  <span className="note">{e.dateNote}</span>
+                </div>
               </div>
-              <div className="text-sm text-gray-light font-light">
-                <strong className="text-white-kld font-medium block text-sm">
-                  {meta.strong}
-                </strong>
-                {meta.sub}
+
+              <div className="meta-row">
+                <div className="meta-icon" aria-hidden="true">
+                  <svg
+                    width={14}
+                    height={14}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z" />
+                    <circle cx={12} cy={9} r={2.5} />
+                  </svg>
+                </div>
+                <div>
+                  <span className="strong">{e.venue}</span>
+                  <span className="note">{e.venueNote}</span>
+                </div>
+              </div>
+
+              <div className="meta-row">
+                <div className="meta-icon" aria-hidden="true">
+                  <svg
+                    width={14}
+                    height={14}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path d="M6 3h12v4a6 6 0 0 1-12 0V3z" />
+                    <path d="M6 5H2v2a4 4 0 0 0 4 4M18 5h4v2a4 4 0 0 1-4 4M9 21h6M12 13v8" />
+                  </svg>
+                </div>
+                <div>
+                  <span className="strong">{e.format}</span>
+                  <span className="note">{e.formatNote}</span>
+                </div>
               </div>
             </div>
-          ))}
-        </dl>
 
-        {/* 디비전 태그 */}
-        <div className="flex gap-1.5 flex-wrap mb-8" role="list" aria-label="참가 디비전">
-          {event.divisions.map((div) => (
-            <div
-              key={div}
-              className="
-                font-ui text-[11px] font-semibold tracking-[0.14em] uppercase
-                px-3 py-1.5 border border-kld-red text-kld-red
-                bg-kld-red/[0.12]
-              "
-              role="listitem"
-            >
-              {div}
+            <div className="divisions">
+              {e.divisions.map((d) => (
+                <span key={d} className="div-chip">
+                  {d}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <Link
-          href={event.applyLink}
-          className="
-            inline-flex items-center justify-center self-start
-            font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-9 py-4
-            hover:bg-kld-red-light transition-colors
-          "
-        >
-          지금 신청하기 &rarr;
-        </Link>
+            <Link href={e.applyHref} className="btn btn-primary btn-lg">
+              지금 신청하기 · APPLY NOW <span className="arrow">→</span>
+            </Link>
+          </div>
+        </article>
       </div>
-    </article>
+    </section>
   );
 }

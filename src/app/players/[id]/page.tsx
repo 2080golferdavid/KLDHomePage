@@ -1,27 +1,23 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EditModeButton from "@/components/players/EditModeButton";
 import ProfileTabs from "@/components/players/ProfileTabs";
 import { getAllPlayerIds, getPlayerById } from "@/data/players";
 
-/* ── 동적 라우트 Props 타입 ──
-   Next.js 14 에서 dynamic segment `[id]` 는 params.id 로 들어온다. */
 interface PlayerProfilePageProps {
   params: { id: string };
 }
 
 /**
- * 정적 경로 프리렌더링(generateStaticParams)
- * 빌드 시 모든 선수 id 에 대해 정적 페이지를 생성한다.
- * Supabase 연동 후에도 동일한 패턴을 유지할 수 있다.
+ * 정적 경로 프리렌더링 — 빌드 시 모든 선수 id에 대해 정적 페이지 생성.
  */
 export async function generateStaticParams() {
   const ids = await getAllPlayerIds();
   return ids.map((id) => ({ id }));
 }
 
-/** 페이지별 동적 메타데이터 — 선수 이름을 타이틀에 포함한다. */
 export async function generateMetadata({
   params,
 }: PlayerProfilePageProps): Promise<Metadata> {
@@ -36,146 +32,210 @@ export async function generateMetadata({
 }
 
 /**
- * 선수 개인 프로필 페이지 (동적 라우트: /players/[id])
- *
- * 구조:
- * - 상단 히어로: 사진(또는 이니셜) + 기본 정보 + 본인 편집 버튼
- * - 소개(Bio) 블록
- * - 시즌 스탯 4분할 블록
- * - 하단 탭: 대회 기록 / 장비
+ * 선수 개인 프로필 페이지.
+ * 상단: 브레드크럼 → 히어로(사진 + 이름 + 메타) → 시즌 스탯 스트립 → 탭.
  */
 export default async function PlayerProfilePage({
   params,
 }: PlayerProfilePageProps) {
   const player = await getPlayerById(params.id);
-
-  /* 존재하지 않는 id 로 접근하면 404 페이지로 보낸다. */
-  if (!player) {
-    notFound();
-  }
+  if (!player) notFound();
 
   return (
-    <main className="pt-nav">
-      {/* ════════════════════
-          브레드크럼(Breadcrumb)
-      ════════════════════ */}
+    <main>
+      {/* BREADCRUMB */}
       <nav
-        className="px-5 md:px-8 lg:px-16 pt-8 md:pt-10"
+        className="wrap"
         aria-label="경로"
+        style={{ paddingTop: 120, paddingBottom: 12 }}
       >
-        <ol className="flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] uppercase">
+        <ol
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            fontFamily: "var(--kld-font-mono)",
+            fontSize: 10,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            margin: 0,
+            padding: 0,
+          }}
+        >
           <li>
             <Link
               href="/players"
-              className="text-gray-mid hover:text-kld-red transition-colors"
+              style={{ color: "var(--kld-fg-3)" }}
             >
-              선수 목록
+              ATHLETES · 선수 목록
             </Link>
           </li>
-          <li className="text-gray-kld" aria-hidden="true">
+          <li style={{ color: "var(--kld-fg-4)" }} aria-hidden="true">
             /
           </li>
-          <li className="text-white-kld">{player.name}</li>
+          <li style={{ color: "var(--accent)" }}>{player.name}</li>
         </ol>
       </nav>
 
-      {/* ════════════════════
-          히어로: 사진 + 기본 정보
-      ════════════════════ */}
+      {/* HERO */}
       <section
-        className="
-          px-5 md:px-8 lg:px-16
-          pt-8 md:pt-10
-          pb-12 md:pb-16 lg:pb-20
-          border-b border-kld-red/[0.15]
-        "
+        className="wrap"
+        style={{
+          paddingBottom: 64,
+          borderBottom: "1px solid var(--kld-line)",
+          position: "relative",
+        }}
         aria-label="선수 기본 정보"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 md:gap-10 lg:gap-14 items-start">
-          {/* ── 좌측: 사진 / 이니셜 영역 ── */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(240px, 320px) 1fr",
+            gap: 48,
+            alignItems: "start",
+          }}
+          className="player-detail-grid"
+        >
+          {/* 좌측 사진/이니셜 */}
           <div
-            className="
-              relative aspect-[4/5] w-full max-w-[320px] mx-auto lg:mx-0
-              flex items-center justify-center
-              overflow-hidden
-              border border-kld-red/[0.2]
-            "
             style={{
+              position: "relative",
+              aspectRatio: "3 / 4",
+              width: "100%",
+              overflow: "hidden",
+              border: "1px solid var(--kld-line-strong)",
+              borderTop: "2px solid var(--accent)",
               background:
-                "linear-gradient(160deg, #1a0404 0%, #080303 100%)",
+                "radial-gradient(ellipse at 70% 30%, rgba(200,255,62,0.18), transparent 60%), linear-gradient(135deg, #1a1a22 0%, #0B0B0E 80%)",
             }}
-            aria-hidden="true"
+            aria-hidden={!player.photoUrl || undefined}
           >
-            {/* 배경 번호(디비전 첫 글자) */}
             <div
-              className="
-                absolute right-[-12px] bottom-[-24px]
-                font-display text-[200px] leading-none
-                text-transparent pointer-events-none
-              "
-              style={{ WebkitTextStroke: "1px rgba(196,30,30,0.18)" }}
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                right: -20,
+                bottom: -30,
+                fontFamily: "var(--kld-font-display)",
+                fontWeight: 900,
+                fontStyle: "italic",
+                fontSize: 220,
+                lineHeight: 0.85,
+                color: "transparent",
+                WebkitTextStroke: "1px rgba(200, 255, 62, 0.2)",
+                pointerEvents: "none",
+                letterSpacing: "-0.04em",
+              }}
             >
               {player.division.charAt(0)}
             </div>
 
             {player.photoUrl ? (
-              <img
+              <Image
                 src={player.photoUrl}
                 alt={`${player.name} 프로필 사진`}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 320px"
+                style={{ objectFit: "cover" }}
               />
             ) : (
-              <span className="relative font-display text-[96px] leading-none text-kld-red tracking-[0.04em]">
+              <span
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "grid",
+                  placeItems: "center",
+                  fontFamily: "var(--kld-font-display)",
+                  fontWeight: 900,
+                  fontStyle: "italic",
+                  fontSize: 96,
+                  color: "var(--accent)",
+                  lineHeight: 1,
+                }}
+                aria-hidden="true"
+              >
                 {player.initials}
               </span>
             )}
           </div>
 
-          {/* ── 우측: 텍스트 정보 ── */}
-          <div className="flex flex-col">
-            {/* 디비전 · 지역 · 편집 버튼 */}
-            <div className="flex items-start justify-between flex-wrap gap-4 mb-5">
-              <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase">
-                {player.division} · {player.region} · 활동 시작 {player.careerStart}
+          {/* 우측 정보 */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: 16,
+                flexWrap: "wrap",
+                marginBottom: 20,
+              }}
+            >
+              <div className="kld-caption-mono" style={{ color: "var(--accent)" }}>
+                {player.division} · {player.region} · CAREER SINCE {player.careerStart}
               </div>
               <EditModeButton profileId={player.id} />
             </div>
 
-            {/* 이름 */}
             <h1
-              className="
-                font-display text-[clamp(48px,7vw,96px)]
-                leading-[0.9] tracking-[0.02em]
-                text-white-kld mb-3
-              "
+              className="sec-title"
+              style={{
+                fontSize: "clamp(44px, 7vw, 96px)",
+                margin: "0 0 16px",
+              }}
             >
               {player.name}
             </h1>
 
-            {/* 피지컬 메타 */}
-            <div className="flex flex-wrap gap-x-5 gap-y-1 mb-7 font-mono text-[11px] tracking-[0.14em] text-gray-light uppercase">
-              {player.heightCm ? <span>{player.heightCm}cm</span> : null}
-              {player.weightKg ? <span>{player.weightKg}kg</span> : null}
-              <span>{player.dominantHand}</span>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "4px 20px",
+                marginBottom: 28,
+              }}
+            >
+              {player.heightCm ? (
+                <span className="kld-caption-mono">{player.heightCm}CM</span>
+              ) : null}
+              {player.weightKg ? (
+                <span className="kld-caption-mono">{player.weightKg}KG</span>
+              ) : null}
+              <span className="kld-caption-mono">
+                {player.dominantHand === "오른손" ? "RIGHT-HANDED" : "LEFT-HANDED"} · {player.dominantHand}
+              </span>
             </div>
 
-            {/* 소개(Bio) */}
-            <p className="text-[14px] md:text-[15px] font-light leading-[1.75] text-gray-light max-w-[620px] mb-8">
+            <p
+              style={{
+                fontFamily: "var(--kld-font-kr)",
+                fontSize: 15,
+                lineHeight: 1.75,
+                color: "var(--kld-fg-2)",
+                maxWidth: 640,
+                marginBottom: 28,
+              }}
+            >
               {player.bio}
             </p>
 
-            {/* 소셜 링크 */}
             {player.social &&
             (player.social.instagram || player.social.youtube) ? (
-              <div className="flex flex-wrap gap-2" aria-label="소셜 미디어">
+              <div
+                style={{ display: "flex", flexWrap: "wrap", gap: 8 }}
+                aria-label="소셜 미디어"
+              >
                 {player.social.instagram ? (
                   <a
                     href="#"
-                    className="
-                      font-mono text-[11px] tracking-[0.16em] text-gray-light
-                      border border-kld-red/30 px-3 py-1.5
-                      hover:border-kld-red hover:text-kld-red transition-colors
-                    "
+                    style={{
+                      fontFamily: "var(--kld-font-mono)",
+                      fontSize: 11,
+                      letterSpacing: "0.18em",
+                      color: "var(--kld-fg-2)",
+                      border: "1px solid var(--kld-line-strong)",
+                      padding: "7px 14px",
+                    }}
                   >
                     ◎ {player.social.instagram}
                   </a>
@@ -183,11 +243,14 @@ export default async function PlayerProfilePage({
                 {player.social.youtube ? (
                   <a
                     href="#"
-                    className="
-                      font-mono text-[11px] tracking-[0.16em] text-gray-light
-                      border border-kld-red/30 px-3 py-1.5
-                      hover:border-kld-red hover:text-kld-red transition-colors
-                    "
+                    style={{
+                      fontFamily: "var(--kld-font-mono)",
+                      fontSize: 11,
+                      letterSpacing: "0.18em",
+                      color: "var(--kld-fg-2)",
+                      border: "1px solid var(--kld-line-strong)",
+                      padding: "7px 14px",
+                    }}
                   >
                     ▶ {player.social.youtube}
                   </a>
@@ -198,84 +261,47 @@ export default async function PlayerProfilePage({
         </div>
       </section>
 
-      {/* ════════════════════
-          시즌 스탯 4분할
-      ════════════════════ */}
-      <section
-        className="
-          bg-dark-200
-          px-5 md:px-8 lg:px-16
-          py-10 md:py-14
-          border-b border-kld-red/[0.12]
-        "
-        aria-label="시즌 통계"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
-          <StatBlock
-            label="Season Max"
-            value={`${player.seasonStats.maxDistance}`}
-            unit="m"
-          />
-          <StatBlock
-            label="Rank"
-            value={`#${player.seasonStats.rank}`}
-          />
-          <StatBlock
-            label="Points"
-            value={player.seasonStats.points}
-            unit="pts"
-          />
-          <StatBlock
-            label="Events"
-            value={`${player.seasonStats.participationCount}`}
-            unit="회"
+      {/* SEASON STATS STRIP */}
+      <section aria-label="시즌 통계" className="stats-strip">
+        <div className="stats-strip-grid">
+          <StatCell v={`${player.seasonStats.maxDistance}`} u="M" k="SEASON MAX · 시즌 최장" />
+          <StatCell v={`#${player.seasonStats.rank}`} k="RANK · 순위" />
+          <StatCell v={player.seasonStats.points} u="PTS" k="POINTS · 포인트" />
+          <StatCell
+            v={`${player.seasonStats.participationCount}`}
+            u="EVT"
+            k="EVENTS · 참가"
           />
         </div>
       </section>
 
-      {/* ════════════════════
-          하단 탭: 대회 기록 / 장비
-      ════════════════════ */}
-      <section
-        className="
-          px-5 md:px-8 lg:px-16
-          py-14 md:py-20 lg:py-24
-          bg-dark
-        "
-        aria-label="대회 기록과 장비"
-      >
-        <ProfileTabs
-          equipment={player.equipment}
-          results={player.results}
-        />
+      {/* TABS: RESULTS / EQUIPMENT */}
+      <section className="sec reveal" aria-label="대회 기록 및 장비">
+        <div className="wrap">
+          <ProfileTabs
+            equipment={player.equipment}
+            results={player.results}
+          />
+        </div>
       </section>
     </main>
   );
 }
 
-/* ── 시즌 스탯 블록(서브 컴포넌트) ──
-   이 페이지 내부에서만 사용하는 간단한 표시 블록이므로
-   같은 파일 하단에 두되, export 하지 않는다. */
-interface StatBlockProps {
-  label: string;
-  value: string;
-  unit?: string;
+/* ── 페이지 내부 전용 스탯 셀 ── */
+interface StatCellProps {
+  v: string;
+  u?: string;
+  k: string;
 }
-
-function StatBlock({ label, value, unit }: StatBlockProps) {
+function StatCell({ v, u, k }: StatCellProps) {
   return (
-    <div className="flex flex-col">
-      <div className="font-mono text-[10px] tracking-[0.22em] text-gray-mid uppercase mb-2">
-        {label}
+    <div className="stats-strip-cell">
+      <div className="v">
+        {v}
+        {u ? <sub>{u}</sub> : null}
       </div>
-      <div className="font-display text-[clamp(32px,4vw,52px)] leading-none text-white-kld">
-        {value}
-        {unit ? (
-          <span className="font-mono text-[12px] text-gray-mid ml-1">
-            {unit}
-          </span>
-        ) : null}
-      </div>
+      <div className="k">{k}</div>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
 
 /**
- * KLD 프로젝트 Tailwind 설정
- * 기존 CSS 변수에서 추출한 색상/폰트 체계를 Tailwind 유틸리티로 사용할 수 있도록 확장한다.
+ * KLD Tailwind 설정
+ * 레퍼런스 디자인 시스템(colors_and_type)에 맞춰 확장한다.
+ * 본 설정은 홈 이외의 페이지(/about, /competitions, ...)가 기존
+ * Tailwind 유틸리티에 의존하고 있어서 레거시 색상 별칭을 함께 유지한다.
  */
 const config: Config = {
   content: [
@@ -12,44 +14,48 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      /* ── KLD 브랜드 색상 ──
-         CSS 변수(--color-kld-*)와 동기화되어 있다.
-         Tailwind 유틸리티: bg-kld-red, text-kld-black 등으로 사용 */
       colors: {
+        /* ── KLD 브랜드(새 디자인 시스템) ── */
         kld: {
-          red: "#C41E1E",
+          /* 새 시스템 */
+          black: "#0B0B0E",
+          green: "#C8FF3E",
+          "green-600": "#A8E020",
+          red: "#E11D2E",
+          "red-600": "#B5121F",
+          /* 기존 페이지 호환용 레거시 */
           dark: "#8B0000",
-          black: "#080808",
           white: "#F5F5F5",
-          gray: "#888888",
+          gray: "#8B8F99",
         },
-        /* 단계별 다크 톤 — 카드/섹션 배경 구분용 */
+        /* 단계별 다크 톤 */
         dark: {
-          DEFAULT: "#080808",
-          100: "#111111",
-          200: "#1A1A1A",
-          300: "#2A2A2A",
+          DEFAULT: "#0B0B0E",
+          100: "#17171B",
+          200: "#222228",
+          300: "#2E2E35",
         },
         /* 기존 컴포넌트 호환용 별칭 */
         gray: {
-          kld: "#444444",
-          mid: "#888888",
-          light: "#BBBBBB",
+          kld: "#5B5F6A",
+          mid: "#8B8F99",
+          light: "#C7CAD1",
         },
         white: {
-          kld: "#F5F5F5",
+          kld: "#FFFFFF",
         },
       },
 
-      /* ── 폰트 패밀리 ── */
+      /* ── 폰트 패밀리 ──
+         globals.css 의 --kld-font-* 와 동기화. */
       fontFamily: {
-        display: ["var(--font-bebas)", "sans-serif"],
-        ui: ["var(--font-barlow)", "sans-serif"],
-        body: ["var(--font-noto)", "sans-serif"],
-        mono: ["var(--font-dm-mono)", "monospace"],
+        display: ["var(--font-barlow)", "Pretendard Variable", "sans-serif"],
+        ui: ["var(--font-inter)", "Pretendard Variable", "sans-serif"],
+        body: ["var(--font-inter)", "Pretendard Variable", "sans-serif"],
+        kr: ["Pretendard Variable", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
       },
 
-      /* ── 커스텀 애니메이션 ── */
       keyframes: {
         "fade-in-up": {
           from: { opacity: "0", transform: "translateY(36px)" },
@@ -76,7 +82,6 @@ const config: Config = {
         pulse: "pulse 1.5s infinite",
       },
 
-      /* ── 간격 / 크기 ── */
       spacing: {
         nav: "72px",
       },

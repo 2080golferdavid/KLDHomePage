@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { PlayerProfile } from "@/types";
 
@@ -7,90 +8,90 @@ interface PlayerCardProps {
 }
 
 /**
- * 선수 목록 그리드에 표시되는 카드 컴포넌트
- * 클릭 시 해당 선수 상세 페이지(/players/[id])로 이동한다.
+ * 선수 목록 카드 — /players 그리드에 표시.
+ * 레퍼런스의 .player-card 스타일을 재사용하되 배경 비주얼과 스탯을 목록용으로 단순화한다.
  */
 export default function PlayerCard({ player }: PlayerCardProps) {
+  /* 디비전 첫 글자를 시드 번호 자리에 넣어 브로드캐스트 뱃지처럼 보이게 한다. */
+  const divisionLetter = player.division.charAt(0);
+
   return (
     <Link
       href={`/players/${player.id}`}
-      className="
-        group relative flex flex-col
-        bg-dark-200 border border-kld-red/[0.15]
-        overflow-hidden
-        hover:border-kld-red/50 transition-colors
-      "
+      className="player-card"
       aria-label={`${player.name} 프로필 보기`}
+      style={{ aspectRatio: "3 / 4" }}
     >
-      {/* ── 상단: 이니셜 배경 영역 ── */}
-      <div
-        className="
-          relative aspect-[4/3] w-full
-          flex items-center justify-center
-          overflow-hidden
-        "
-        style={{
-          background:
-            "linear-gradient(160deg, #1a0404 0%, #080303 100%)",
-        }}
-        aria-hidden="true"
-      >
-        {/* 배경 번호(디비전 첫 글자) */}
-        <div
-          className="
-            absolute right-[-8px] bottom-[-20px]
-            font-display text-[160px] leading-none
-            text-transparent pointer-events-none
-          "
-          style={{ WebkitTextStroke: "1px rgba(196,30,30,0.16)" }}
-        >
-          {player.division.charAt(0)}
-        </div>
+      <div className="bg" aria-hidden="true" />
+      <span className="bug">
+        {player.division} · {player.region}
+      </span>
+      <span className="seed" aria-hidden="true">
+        {divisionLetter}
+      </span>
 
-        {/* 중앙 이니셜 */}
-        {player.photoUrl ? (
-          <img
+      {/* 사진이 있으면 상단 영역에 중앙 배치. 없으면 이니셜을 큰 아웃라인으로. */}
+      {player.photoUrl ? (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "hidden",
+            zIndex: 1,
+          }}
+          aria-hidden="true"
+        >
+          <Image
             src={player.photoUrl}
             alt=""
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 720px) 50vw, 25vw"
+            style={{
+              objectFit: "cover",
+              opacity: 0.55,
+            }}
           />
-        ) : (
-          <span className="relative font-display text-[64px] leading-none text-kld-red tracking-[0.04em]">
-            {player.initials}
-          </span>
-        )}
-      </div>
-
-      {/* ── 하단: 정보 영역 ── */}
-      <div className="flex flex-col p-5 md:p-6 gap-3">
-        {/* 디비전 · 지역 */}
-        <div className="font-mono text-[10px] tracking-[0.2em] text-kld-red uppercase">
-          {player.division} · {player.region}
         </div>
+      ) : (
+        <span
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "38%",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            fontFamily: "var(--kld-font-display)",
+            fontWeight: 900,
+            fontStyle: "italic",
+            fontSize: 72,
+            lineHeight: 1,
+            color: "var(--accent)",
+            opacity: 0.35,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {player.initials}
+        </span>
+      )}
 
-        {/* 이름 */}
-        <div className="font-display text-[26px] leading-none tracking-[0.03em] text-white-kld">
+      <div className="info">
+        <div className="div">{player.division.toUpperCase()}</div>
+        <div className="name">
           {player.name}
+          <span className="kr">{player.region}</span>
         </div>
-
-        {/* 시즌 최장 + 랭킹 */}
-        <div className="flex items-end justify-between mt-2 pt-3 border-t border-white/[0.06]">
+        <div className="stats">
           <div>
-            <div className="font-mono text-[9px] tracking-[0.2em] text-gray-mid uppercase mb-1">
-              Season Max
-            </div>
-            <div className="font-display text-[22px] leading-none text-white-kld">
+            <div className="v">
               {player.seasonStats.maxDistance}
-              <span className="font-mono text-[10px] text-gray-mid ml-0.5">m</span>
+              <span style={{ fontSize: "0.5em", marginLeft: 2 }}>M</span>
             </div>
+            <div className="k">SEASON MAX</div>
           </div>
-          <div className="text-right">
-            <div className="font-mono text-[9px] tracking-[0.2em] text-gray-mid uppercase mb-1">
-              Rank
-            </div>
-            <div className="font-display text-[22px] leading-none text-kld-red">
-              #{player.seasonStats.rank}
-            </div>
+          <div>
+            <div className="v">#{player.seasonStats.rank}</div>
+            <div className="k">RANK</div>
           </div>
         </div>
       </div>

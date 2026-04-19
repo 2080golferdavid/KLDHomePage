@@ -301,8 +301,8 @@ export default function ResultInputForm() {
           className="
             inline-flex items-center justify-center
             font-ui text-[13px] font-bold tracking-[0.22em] uppercase text-white-kld
-            bg-kld-red px-6 py-3.5
-            hover:bg-kld-red-light transition-colors
+            bg-kld-green px-6 py-3.5
+            hover:bg-kld-green-600 transition-colors
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >
@@ -353,7 +353,7 @@ function Field({ label, htmlFor, required, children }: FieldProps) {
       >
         {label}
         {required ? (
-          <span className="text-kld-red" aria-hidden="true">
+          <span className="text-kld-green" aria-hidden="true">
             *
           </span>
         ) : null}

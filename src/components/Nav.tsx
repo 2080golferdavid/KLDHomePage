@@ -2,75 +2,58 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import UserAvatar from "@/components/UserAvatar";
-import { NAV_LINKS } from "@/constants/siteData";
+import { BI_NAV } from "@/constants/homeData";
 import { useCurrentUserProfile } from "@/hooks/useCurrentUserProfile";
 import { signOut } from "@/hooks/useCurrentUser";
 
 /* ══════════════════════════════════════════
    사이트 상단 네비게이션(Nav)
 
-   구성:
-   - 데스크탑(1024+): 로고 + 메뉴 링크 + [로그인/프로필] + 대회신청
-   - 모바일(≤1023): 로고 + 햄버거 → 슬라이드 드로어
-     드로어 상단에는 로그인 상태 카드(비로그인: 두 버튼 / 로그인: 사용자 카드)
+   - 티커 아래에 고정되는 방송형 헤더.
+   - 각 메뉴는 영문/한글 이중 라벨을 노출한다.
+   - 로그인 상태면 아바타 드롭다운, 비로그인이면 로그인/회원가입 버튼이 보인다.
+   - 1024px 이하에서는 햄버거 → 슬라이드 드로어.
+   ══════════════════════════════════════════ */
 
-   로그인 상태 감지:
-   - useCurrentUserProfile() 훅이 현재 localStorage 스텁 기반으로 동작한다.
-   - Supabase 연결 시 훅 내부만 `supabase.auth.getSession()` 또는
-     `@supabase/auth-helpers-react` 의 `useUser` 로 교체하면 된다.
-══════════════════════════════════════════ */
-
-/**
- * Supabase 연결 후 훅을 교체할 때도 이 컴포넌트는 수정할 필요가 없다.
- */
 export default function Nav() {
   const router = useRouter();
+  const pathname = usePathname();
   const { loading: authLoading, userId, role, profile } =
     useCurrentUserProfile();
   const isLoggedIn = Boolean(userId);
 
-  /* ── 상태 ── */
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-
-  /* 프로필 드롭다운 외부 클릭 감지용 ref */
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
 
-  /* ── 스크롤에 따른 배경 변경 ── */
+  /* 스크롤 상태에 따라 배경 투명도를 강화한다. */
   useEffect(() => {
-    function handleScroll() {
-      setIsScrolled(window.scrollY > 60);
+    function onScroll() {
+      setIsScrolled(window.scrollY > 24);
     }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── 토글/닫기 ── */
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen((prev) => !prev);
-  }, []);
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
-  const closeProfileMenu = useCallback(() => {
-    setIsProfileMenuOpen(false);
-  }, []);
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const toggleMenu = useCallback(() => setIsMenuOpen((v) => !v), []);
+  const closeProfile = useCallback(() => setIsProfileMenuOpen(false), []);
 
-  /* ── 리사이즈로 모바일/데스크탑 전환 시 메뉴 초기화 ── */
+  /* 드로어 열린 상태에서 데스크톱으로 리사이즈되면 자동 닫기 */
   useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 1023 && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
+    function onResize() {
+      if (window.innerWidth > 1023 && isMenuOpen) setIsMenuOpen(false);
     }
-    window.addEventListener("resize", handleResize, { passive: true });
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
   }, [isMenuOpen]);
 
-  /* ── 모바일 드로어 열려 있을 때 body 스크롤 잠금 ── */
+  /* 드로어 열려 있을 때 바디 스크롤 잠금 */
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
@@ -78,409 +61,287 @@ export default function Nav() {
     };
   }, [isMenuOpen]);
 
-  /* ── 프로필 드롭다운: 외부 클릭 / ESC 키로 닫기 ── */
+  /* 프로필 드롭다운: 외부 클릭/ESC 로 닫기 */
   useEffect(() => {
     if (!isProfileMenuOpen) return;
-
-    function handleClickOutside(e: MouseEvent) {
+    function onClickOutside(e: MouseEvent) {
       if (!profileMenuRef.current) return;
       if (!profileMenuRef.current.contains(e.target as Node)) {
         setIsProfileMenuOpen(false);
       }
     }
-    function handleKey(e: KeyboardEvent) {
+    function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setIsProfileMenuOpen(false);
     }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKey);
+    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener("keydown", onKey);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKey);
+      document.removeEventListener("mousedown", onClickOutside);
+      document.removeEventListener("keydown", onKey);
     };
   }, [isProfileMenuOpen]);
 
-  /* ── 로그아웃 ──
-     Supabase 연결 시 signOut() 내부에서 `supabase.auth.signOut()` 을 호출하도록 교체.
-     현재는 localStorage 초기화만 수행한다. */
   const handleSignOut = useCallback(() => {
     signOut();
     setIsProfileMenuOpen(false);
     setIsMenuOpen(false);
-    /* 로그아웃 후 홈으로 이동. router.refresh() 를 함께 호출해 서버 컴포넌트도 재평가. */
     router.push("/");
     router.refresh();
   }, [router]);
 
-  /* ── 표시용 이름/이니셜 계산 ──
-     선수 프로필이 있으면 거기서, 없으면 role/userId 기반 fallback 사용. */
-  const displayName = profile?.name ?? (role === "admin" ? "관리자" : userId ?? "");
+  /* 표시용 값 */
+  const displayName =
+    profile?.name ?? (role === "admin" ? "관리자" : userId ?? "");
   const displayInitials =
     profile?.initials ??
-    (role === "admin"
-      ? "AD"
-      : (userId ?? "").slice(0, 2).toUpperCase() || "U");
+    (role === "admin" ? "AD" : (userId ?? "").slice(0, 2).toUpperCase() || "U");
   const displayPhoto = profile?.photoUrl;
+
+  /* 현재 경로를 기준으로 활성 탭 판별. 홈(/)은 정확히 일치할 때만 활성. */
+  function isActive(href: string): boolean {
+    if (href === "/") return pathname === "/";
+    return pathname?.startsWith(href) ?? false;
+  }
 
   return (
     <>
-      <header
-        className={`
-          fixed top-0 left-0 right-0 z-[200] h-nav
-          flex items-center
-          px-5 md:px-8 lg:px-16
-          border-b border-kld-red/[0.12]
-          backdrop-blur-sm
-          transition-colors duration-300
-          ${isScrolled ? "bg-dark/[0.98]" : "bg-gradient-to-b from-dark/[0.97] to-transparent"}
-        `}
-        role="banner"
-      >
-        {/* ── 로고 ── */}
-        <Link href="/" className="flex items-center gap-3" aria-label="KLD 홈">
-          <div
-            className="
-              w-[30px] h-[30px] border-2 border-kld-red
-              flex items-center justify-center
-              font-mono text-[9px] text-kld-red shrink-0
-            "
-          >
-            KLD
-          </div>
-          <span className="font-display text-[26px] tracking-[0.1em] text-white-kld">
-            KOREA LONG DRIVE
-          </span>
-        </Link>
-
-        {/* ── 데스크톱 메뉴 링크 ── */}
-        <nav className="hidden lg:flex gap-8 ml-auto mr-8" aria-label="주 메뉴">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="
-                font-ui text-[13px] font-semibold
-                tracking-[0.18em] uppercase text-gray-light
-                hover:text-kld-red transition-colors
-              "
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* ══════════════════════════════════════════
-            데스크톱 — 로그인 상태별 UI
-            ══════════════════════════════════════════ */}
-        <div className="hidden lg:flex items-center gap-3">
-          {/* 인증 로딩 중에는 스켈레톤을 보여줘 레이아웃 흔들림을 방지 */}
-          {authLoading ? (
-            <div
-              className="w-[200px] h-8 bg-white/[0.04] animate-pulse"
-              aria-hidden="true"
-            />
-          ) : isLoggedIn ? (
-            /* ── 로그인 상태: 아바타 + 드롭다운 ── */
-            <div className="relative" ref={profileMenuRef}>
-              <button
-                type="button"
-                onClick={() => setIsProfileMenuOpen((p) => !p)}
-                aria-haspopup="menu"
-                aria-expanded={isProfileMenuOpen}
-                aria-label={`${displayName} 프로필 메뉴 열기`}
-                className="
-                  flex items-center gap-2.5
-                  px-2 py-1
-                  hover:bg-kld-red/[0.06] transition-colors
-                "
-              >
-                <UserAvatar
-                  initials={displayInitials}
-                  photoUrl={displayPhoto}
-                  alt={`${displayName} 아바타`}
-                />
-                <span className="font-ui text-[13px] font-semibold tracking-[0.1em] text-white-kld max-w-[120px] truncate">
-                  {displayName}
-                </span>
-                <span
-                  className={`
-                    font-mono text-[9px] text-gray-mid transition-transform
-                    ${isProfileMenuOpen ? "rotate-180" : ""}
-                  `}
-                  aria-hidden="true"
-                >
-                  ▾
-                </span>
-              </button>
-
-              {/* 드롭다운 패널 */}
-              {isProfileMenuOpen ? (
-                <div
-                  role="menu"
-                  aria-label="프로필 메뉴"
-                  className="
-                    absolute right-0 top-[calc(100%+8px)]
-                    min-w-[200px]
-                    bg-dark-200 border border-kld-red/30
-                    shadow-[0_12px_32px_rgba(0,0,0,0.5)]
-                    py-2
-                  "
-                >
-                  {/* 헤더 영역 — 이름/ID 요약 */}
-                  <div className="px-4 pb-2 mb-1 border-b border-white/[0.06]">
-                    <div className="font-mono text-[10px] tracking-[0.18em] text-gray-mid uppercase">
-                      Signed in as
-                    </div>
-                    <div className="font-ui text-[13px] font-semibold text-white-kld truncate">
-                      {displayName}
-                    </div>
-                  </div>
-
-                  <DropdownLink href="/mypage/profile" onClick={closeProfileMenu}>
-                    마이페이지
-                  </DropdownLink>
-                  <DropdownLink href="/mypage/profile" onClick={closeProfileMenu}>
-                    프로필 수정
-                  </DropdownLink>
-                  {role === "admin" ? (
-                    <DropdownLink href="/admin" onClick={closeProfileMenu}>
-                      관리자 콘솔
-                    </DropdownLink>
-                  ) : null}
-
-                  {/* 구분선 */}
-                  <div className="my-1 border-t border-white/[0.06]" aria-hidden="true" />
-
-                  <button
-                    type="button"
-                    role="menuitem"
-                    onClick={handleSignOut}
-                    className="
-                      w-full text-left
-                      font-ui text-[12px] font-semibold tracking-[0.14em] uppercase
-                      text-kld-red
-                      px-4 py-2.5
-                      hover:bg-kld-red/10 transition-colors
-                    "
-                  >
-                    로그아웃
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            /* ── 비로그인 상태: 로그인 링크 + 회원가입 아웃라인 버튼 ── */
-            <>
-              <Link
-                href="/auth/login"
-                className="
-                  font-ui text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-light
-                  px-2 py-2
-                  hover:text-kld-red transition-colors
-                "
-              >
-                로그인
-              </Link>
-              <Link
-                href="/auth/register"
-                className="
-                  font-ui text-[12px] font-bold tracking-[0.2em] uppercase text-kld-red
-                  border border-kld-red px-4 py-[9px]
-                  hover:bg-kld-red hover:text-white-kld transition-colors
-                "
-              >
-                회원가입
-              </Link>
-            </>
-          )}
-
-          {/* 대회 신청 버튼 — 로그인 상태와 무관하게 항상 표시 */}
-          <Link
-            href="/apply"
-            className="
-              inline-flex
-              font-ui text-[12px] font-bold
-              tracking-[0.2em] uppercase text-white-kld
-              bg-kld-red px-[22px] py-[10px]
-              hover:bg-kld-red-light transition-colors shrink-0
-              ml-1
-            "
-          >
-            대회 신청
+      <header className={`nav ${isScrolled ? "is-scrolled" : ""}`} role="banner">
+        <div className="wrap nav-inner">
+          {/* 브랜드 로고 — LOGO3.png.
+             소스 이미지는 상하 여백이 큰 1080x1350 이므로 `.brand-logo` 박스에서
+             cover + scale 로 중앙 영역만 크롭해 노출한다. */}
+          <Link href="/" className="brand" aria-label="KLD · Korea Long Drive 홈">
+            <span className="brand-logo">
+              <Image
+                src="/images/LOGO3.png"
+                alt="KLD · Korea Long Drive"
+                fill
+                sizes="168px"
+                priority
+              />
+            </span>
+            <span className="brand-aside">
+              <span className="brand-sub">
+                <em>ASSOCIATION</em> · 협회
+              </span>
+              <span className="brand-sub brand-sub-2">
+                <em>한국장타협회</em>
+              </span>
+            </span>
           </Link>
-        </div>
 
-        {/* ── 모바일 햄버거 버튼 ── */}
-        <button
-          className="lg:hidden flex flex-col justify-center gap-[5px] w-9 h-9 ml-auto p-1"
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
-          aria-expanded={isMenuOpen}
-        >
-          <span
-            className={`block w-full h-[2px] bg-white-kld rounded-sm transition-all duration-250
-              ${isMenuOpen ? "translate-y-[7px] rotate-45" : ""}
-            `}
-          />
-          <span
-            className={`block w-full h-[2px] bg-white-kld rounded-sm transition-all duration-250
-              ${isMenuOpen ? "opacity-0" : ""}
-            `}
-          />
-          <span
-            className={`block w-full h-[2px] bg-white-kld rounded-sm transition-all duration-250
-              ${isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}
-            `}
-          />
-        </button>
+          {/* 데스크톱 메뉴 */}
+          <nav className="nav-links" aria-label="Primary">
+            {BI_NAV.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={`nav-link ${isActive(item.href) ? "is-active" : ""}`}
+              >
+                <span className="en">{item.en}</span>
+                <span className="kr">{item.kr}</span>
+              </Link>
+            ))}
+          </nav>
+
+          {/* 오른쪽 영역 */}
+          <div className="nav-right">
+            <span className="live-pill" aria-label="현재 라이브 · LIVE now">
+              <span className="dot" aria-hidden="true" />
+              LIVE · R2
+            </span>
+
+            {authLoading ? (
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 160,
+                  height: 36,
+                  background: "var(--kld-line)",
+                }}
+              />
+            ) : isLoggedIn ? (
+              <div ref={profileMenuRef} style={{ position: "relative" }}>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileMenuOpen((v) => !v)}
+                  aria-haspopup="menu"
+                  aria-expanded={isProfileMenuOpen}
+                  aria-label={`${displayName} 프로필 메뉴`}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "6px 8px",
+                    border: "1px solid var(--kld-line-strong)",
+                  }}
+                >
+                  <UserAvatar
+                    initials={displayInitials}
+                    photoUrl={displayPhoto}
+                    alt={`${displayName} 아바타`}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "var(--kld-font-sans)",
+                      fontWeight: 700,
+                      fontSize: 11,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: "#fff",
+                      maxWidth: 120,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {displayName}
+                  </span>
+                </button>
+
+                {isProfileMenuOpen ? (
+                  <ProfileDropdown
+                    displayName={displayName}
+                    role={role}
+                    onNavigate={closeProfile}
+                    onSignOut={handleSignOut}
+                  />
+                ) : null}
+              </div>
+            ) : (
+              <>
+                <Link href="/auth/login" className="btn btn-ghost">
+                  LOG IN · 로그인
+                </Link>
+                <Link href="/apply" className="btn btn-primary">
+                  대회 신청 · APPLY
+                </Link>
+              </>
+            )}
+
+            <button
+              className="hamburger"
+              onClick={toggleMenu}
+              aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+              aria-expanded={isMenuOpen}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+        </div>
       </header>
 
-      {/* ══════════════════════════════════════════
-          모바일 네비게이션 드로어
-          ══════════════════════════════════════════ */}
+      {/* 모바일 드로어 */}
       <nav
-        className={`
-          fixed top-nav left-0 right-0 z-[190]
-          bg-dark/[0.98] border-b border-kld-red/20
-          backdrop-blur-xl
-          flex flex-col px-5 py-6 gap-0
-          transition-all duration-250
-          ${isMenuOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"}
-          lg:hidden
-          max-h-[calc(100vh-theme(spacing.nav))] overflow-y-auto
-        `}
+        className={`mobile-drawer ${isMenuOpen ? "is-open" : ""}`}
         aria-label="모바일 메뉴"
       >
-        {/* ── 상단: 로그인 상태 카드 ── */}
         {authLoading ? (
-          <div className="h-[72px] bg-white/[0.04] animate-pulse mb-5" aria-hidden="true" />
-        ) : isLoggedIn ? (
           <div
-            className="
-              flex items-center gap-3 p-4 mb-5
-              bg-dark-200 border border-kld-red/25
-            "
-          >
+            aria-hidden="true"
+            style={{
+              height: 62,
+              background: "var(--kld-line)",
+              marginBottom: 16,
+            }}
+          />
+        ) : isLoggedIn ? (
+          <div className="m-status-card">
             <UserAvatar
               initials={displayInitials}
               photoUrl={displayPhoto}
               size={44}
               alt={`${displayName} 아바타`}
             />
-            <div className="min-w-0 flex-1">
-              <div className="font-mono text-[9px] tracking-[0.2em] text-gray-mid uppercase mb-0.5">
-                {role === "admin" ? "Administrator" : "Signed in"}
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div
+                style={{
+                  fontFamily: "var(--kld-font-mono)",
+                  fontSize: 9,
+                  letterSpacing: "0.2em",
+                  color: "var(--kld-fg-3)",
+                  textTransform: "uppercase",
+                }}
+              >
+                {role === "admin" ? "Administrator · 관리자" : "Signed in · 로그인"}
               </div>
-              <div className="font-ui text-[15px] font-semibold text-white-kld truncate">
+              <div
+                style={{
+                  fontFamily: "var(--kld-font-sans)",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: "#fff",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {displayName}
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-2.5 mb-5">
-            <Link
-              href="/auth/login"
-              onClick={closeMenu}
-              className="
-                inline-flex items-center justify-center
-                font-ui text-[13px] font-semibold tracking-[0.2em] uppercase text-gray-light
-                border border-white/10 px-4 py-3.5
-                hover:border-kld-red hover:text-white-kld transition-colors
-              "
-            >
-              로그인
+          <div className="m-auth-row">
+            <Link href="/auth/login" onClick={closeMenu}>
+              LOG IN · 로그인
             </Link>
             <Link
               href="/auth/register"
               onClick={closeMenu}
-              className="
-                inline-flex items-center justify-center
-                font-ui text-[13px] font-bold tracking-[0.2em] uppercase text-kld-red
-                border border-kld-red px-4 py-3.5
-                hover:bg-kld-red hover:text-white-kld transition-colors
-              "
+              className="is-primary"
             >
-              회원가입
+              JOIN · 회원가입
             </Link>
           </div>
         )}
 
-        {/* ── 메인 메뉴 링크 ── */}
-        {NAV_LINKS.map((link) => (
+        {BI_NAV.map((item) => (
           <Link
-            key={link.href}
-            href={link.href}
+            key={item.key}
+            href={item.href}
+            className="m-link"
             onClick={closeMenu}
-            className="
-              font-ui text-lg font-semibold
-              tracking-[0.14em] uppercase text-gray-light
-              py-[14px] border-b border-white/[0.06]
-              hover:text-kld-red transition-colors
-            "
           >
-            {link.label}
+            <span>{item.en}</span>
+            <span className="kr">{item.kr}</span>
           </Link>
         ))}
 
-        {/* ── 로그인 상태일 때만: 마이페이지 / 관리자 콘솔 ── */}
         {isLoggedIn ? (
           <>
             <Link
               href="/mypage/profile"
+              className="m-link"
               onClick={closeMenu}
-              className="
-                font-ui text-lg font-semibold
-                tracking-[0.14em] uppercase text-gray-light
-                py-[14px] border-b border-white/[0.06]
-                hover:text-kld-red transition-colors
-              "
             >
-              마이페이지
+              <span>MY PAGE</span>
+              <span className="kr">마이페이지</span>
             </Link>
             {role === "admin" ? (
-              <Link
-                href="/admin"
-                onClick={closeMenu}
-                className="
-                  font-ui text-lg font-semibold
-                  tracking-[0.14em] uppercase text-gray-light
-                  py-[14px] border-b border-white/[0.06]
-                  hover:text-kld-red transition-colors
-                "
-              >
-                관리자 콘솔
+              <Link href="/admin" className="m-link" onClick={closeMenu}>
+                <span>ADMIN</span>
+                <span className="kr">관리자</span>
               </Link>
             ) : null}
           </>
         ) : null}
 
-        {/* ── 대회 신청 CTA ── */}
-        <Link
-          href="/apply"
-          onClick={closeMenu}
-          className="
-            font-ui text-lg font-bold
-            tracking-[0.14em] uppercase text-kld-red
-            py-[14px]
-          "
-        >
-          대회 신청하기
+        <Link href="/apply" className="m-link is-cta" onClick={closeMenu}>
+          <span>APPLY NOW</span>
+          <span className="kr">대회 신청하기 →</span>
         </Link>
 
-        {/* ── 로그인 상태일 때만: 로그아웃 버튼 ── */}
         {isLoggedIn ? (
           <button
             type="button"
             onClick={handleSignOut}
-            className="
-              mt-3 inline-flex items-center justify-center
-              font-ui text-[13px] font-bold tracking-[0.2em] uppercase
-              text-gray-light
-              border border-white/10 px-4 py-3
-              hover:border-kld-red hover:text-kld-red transition-colors
-            "
+            className="m-link"
+            style={{ textAlign: "left", width: "100%", color: "var(--kld-red)" }}
           >
-            로그아웃
+            <span>SIGN OUT</span>
+            <span className="kr">로그아웃</span>
           </button>
         ) : null}
       </nav>
@@ -489,26 +350,134 @@ export default function Nav() {
 }
 
 /* ══════════════════════════════════════════
-   내부 헬퍼: 드롭다운 메뉴 아이템
-══════════════════════════════════════════ */
-interface DropdownLinkProps {
+   프로필 드롭다운 — 로그인 상태 전용.
+   ══════════════════════════════════════════ */
+interface ProfileDropdownProps {
+  displayName: string;
+  role: string | null;
+  onNavigate: () => void;
+  onSignOut: () => void;
+}
+
+function ProfileDropdown({
+  displayName,
+  role,
+  onNavigate,
+  onSignOut,
+}: ProfileDropdownProps) {
+  return (
+    <div
+      role="menu"
+      aria-label="프로필 메뉴"
+      style={{
+        position: "absolute",
+        top: "calc(100% + 8px)",
+        right: 0,
+        minWidth: 220,
+        background: "var(--kld-surface-2)",
+        border: "1px solid var(--kld-line-strong)",
+        boxShadow: "var(--kld-shadow-overlay)",
+        padding: "8px 0",
+      }}
+    >
+      <div
+        style={{
+          padding: "8px 16px 10px",
+          borderBottom: "1px solid var(--kld-line)",
+          marginBottom: 4,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "var(--kld-font-mono)",
+            fontSize: 9,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--kld-fg-3)",
+          }}
+        >
+          Signed in as
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--kld-font-sans)",
+            fontSize: 13,
+            fontWeight: 600,
+            color: "#fff",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {displayName}
+        </div>
+      </div>
+
+      <MenuItem href="/mypage/profile" onClick={onNavigate}>
+        MY PAGE · 마이페이지
+      </MenuItem>
+      <MenuItem href="/mypage/profile" onClick={onNavigate}>
+        EDIT PROFILE · 프로필 수정
+      </MenuItem>
+      {role === "admin" ? (
+        <MenuItem href="/admin" onClick={onNavigate}>
+          ADMIN · 관리자 콘솔
+        </MenuItem>
+      ) : null}
+
+      <div
+        style={{
+          borderTop: "1px solid var(--kld-line)",
+          margin: "6px 0",
+        }}
+        aria-hidden="true"
+      />
+
+      <button
+        type="button"
+        role="menuitem"
+        onClick={onSignOut}
+        style={{
+          display: "block",
+          width: "100%",
+          textAlign: "left",
+          padding: "10px 16px",
+          fontFamily: "var(--kld-font-sans)",
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: "var(--kld-red)",
+        }}
+      >
+        SIGN OUT · 로그아웃
+      </button>
+    </div>
+  );
+}
+
+interface MenuItemProps {
   href: string;
   onClick: () => void;
   children: React.ReactNode;
 }
 
-function DropdownLink({ href, onClick, children }: DropdownLinkProps) {
+function MenuItem({ href, onClick, children }: MenuItemProps) {
   return (
     <Link
       href={href}
       role="menuitem"
       onClick={onClick}
-      className="
-        block font-ui text-[12px] font-semibold tracking-[0.14em] uppercase
-        text-gray-light
-        px-4 py-2.5
-        hover:bg-kld-red/10 hover:text-white-kld transition-colors
-      "
+      style={{
+        display: "block",
+        padding: "10px 16px",
+        fontFamily: "var(--kld-font-sans)",
+        fontSize: 11,
+        fontWeight: 600,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        color: "var(--kld-fg-2)",
+      }}
     >
       {children}
     </Link>

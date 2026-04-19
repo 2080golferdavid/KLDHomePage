@@ -6,23 +6,18 @@ import { getUpcomingCompetitions } from "@/data/competitions";
 import type { MemberTier } from "@/hooks/useCurrentUser";
 import type { Competition, PlayerProfile } from "@/types";
 
-/* ── Props ── */
 interface DashboardContentProps {
-  /** 표시용 이름 */
   name: string;
   memberType: MemberTier;
-  /** 현재 사용자의 선수 프로필. null 이면 기록/랭킹 자리에 "—" 표기. */
   profile: PlayerProfile | null;
 }
 
 /**
- * 마이페이지 대시보드 본문
- *
- * 구성:
- *  - 환영 메시지
- *  - 빠른 상태 카드 4개(현재 랭킹 / 최장 비거리 / 올해 출전 수 / 다음 대회 D-Day)
- *  - 최근 대회 결과 3건
- *  - 정회원 유도 배너(일반회원에게만)
+ * 마이페이지 대시보드 본문.
+ * - 환영 헤더
+ * - 빠른 상태 4셀(랭킹·최장·출전·다음 대회 D-Day)
+ * - 최근 대회 결과 3건
+ * - 일반 회원 전용 정회원 업그레이드 배너
  */
 export default function DashboardContent({
   name,
@@ -31,7 +26,6 @@ export default function DashboardContent({
 }: DashboardContentProps) {
   const [nextEvent, setNextEvent] = useState<Competition | null>(null);
 
-  /* 다음 예정 대회 — D-Day 계산용. 없으면 null 로 둔다. */
   useEffect(() => {
     let cancelled = false;
     getUpcomingCompetitions().then((list) => {
@@ -48,136 +42,206 @@ export default function DashboardContent({
   const recentResults = profile?.results.slice(0, 3) ?? [];
 
   return (
-    <div className="flex flex-col gap-7">
-      {/* ── 환영 메시지 ── */}
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       <header>
-        <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-2">
-          My Dashboard
-        </div>
-        <h1 className="font-display text-[clamp(28px,3.5vw,44px)] leading-[1.05] tracking-[0.02em] text-white-kld">
-          {name}님, 안녕하세요
+        <div className="sec-eyebrow">DASHBOARD · 마이 대시보드</div>
+        <h1
+          className="sec-title"
+          style={{ fontSize: "clamp(32px, 4vw, 56px)" }}
+        >
+          WELCOME
+          <span className="kr">{name}님, 안녕하세요</span>
         </h1>
-        <p className="mt-3 text-[13px] font-light text-gray-light leading-[1.7]">
+        <p
+          className="kld-caption-kr"
+          style={{ marginTop: 14, color: "var(--kld-fg-2)" }}
+        >
           오늘도 KLD 에서 좋은 기록 남기시길 바랍니다.
         </p>
       </header>
 
-      {/* ── 빠른 상태 카드 4개 ── */}
-      <section aria-label="빠른 상태">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-          <StatCard
-            label="현재 랭킹"
-            value={profile ? `#${profile.seasonStats.rank}` : "—"}
-            unit={profile ? profile.division : undefined}
-          />
-          <StatCard
-            label="최장 비거리"
-            value={profile ? `${profile.seasonStats.maxDistance}` : "—"}
-            unit={profile ? "m" : undefined}
-          />
-          <StatCard
-            label="올해 출전 대회"
-            value={`${thisYearEntries}`}
-            unit="회"
-          />
-          <StatCard
-            label="다음 대회"
-            value={dday.value}
-            unit={dday.unit}
-            sub={nextEvent?.title}
-          />
-        </div>
+      {/* 빠른 상태 카드 4셀 — 스탯 스트립 변형 */}
+      <section
+        aria-label="빠른 상태"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: 1,
+          background: "var(--kld-line)",
+          border: "1px solid var(--kld-line)",
+        }}
+      >
+        <StatCard
+          label="RANK · 현재 랭킹"
+          value={profile ? `#${profile.seasonStats.rank}` : "—"}
+          sub={profile ? profile.division : undefined}
+          hi
+        />
+        <StatCard
+          label="CARRY · 최장 비거리"
+          value={profile ? `${profile.seasonStats.maxDistance}` : "—"}
+          unit={profile ? "M" : undefined}
+        />
+        <StatCard
+          label="ENTRIES · 올해 출전"
+          value={`${thisYearEntries}`}
+          unit="EVT"
+        />
+        <StatCard
+          label="NEXT · 다음 대회"
+          value={dday.value}
+          sub={nextEvent?.title ?? dday.unit}
+        />
       </section>
 
-      {/* ── 최근 대회 결과 ── */}
+      {/* 최근 대회 결과 */}
       <section aria-label="최근 대회 결과">
-        <div className="flex items-end justify-between mb-3">
-          <h2 className="font-display text-[22px] md:text-[26px] tracking-[0.03em] text-white-kld">
-            최근 대회 결과
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            marginBottom: 16,
+          }}
+        >
+          <h2 className="panel-title">
+            RECENT RESULTS<span className="kr">최근 대회 결과</span>
           </h2>
           <Link
             href="/mypage/records"
-            className="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-mid hover:text-kld-red transition-colors"
+            className="kld-caption-mono"
+            style={{ color: "var(--accent)" }}
           >
             전체 보기 →
           </Link>
         </div>
 
         {recentResults.length === 0 ? (
-          <div className="p-5 bg-white-kld border border-black/[0.08] text-center text-[13px] text-[#666]">
+          <div
+            style={{
+              padding: 24,
+              background: "var(--kld-surface-1)",
+              border: "1px solid var(--kld-line)",
+              textAlign: "center",
+              color: "var(--kld-fg-3)",
+              fontFamily: "var(--kld-font-kr)",
+              fontSize: 13,
+            }}
+          >
             아직 참가한 대회 기록이 없습니다.
           </div>
         ) : (
-          <ul className="bg-white-kld border border-black/[0.08] divide-y divide-black/[0.06]">
+          <ul
+            style={{
+              background: "var(--kld-surface-1)",
+              border: "1px solid var(--kld-line)",
+            }}
+          >
             {recentResults.map((r) => (
               <li
                 key={r.competitionId}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-3 md:gap-5 px-4 py-3.5"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto auto",
+                  alignItems: "center",
+                  gap: 20,
+                  padding: "16px 20px",
+                  borderBottom: "1px solid var(--kld-line)",
+                }}
               >
-                <div className="min-w-0">
-                  <div className="font-ui text-sm font-semibold text-[#080808] truncate">
+                <div style={{ minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontFamily: "var(--kld-font-sans)",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: "#fff",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {r.competitionTitle}
                   </div>
-                  <div className="font-mono text-[11px] tracking-[0.08em] text-[#666] mt-0.5">
+                  <div
+                    className="kld-caption-mono"
+                    style={{ marginTop: 4 }}
+                  >
                     {r.date} · {r.division}
                   </div>
                 </div>
-                <div
-                  className={`
-                    inline-flex items-center justify-center
-                    min-w-[40px] px-2 py-1
-                    font-display text-[13px] tracking-[0.04em]
-                    ${r.placement === 1
-                      ? "bg-kld-red/15 border border-kld-red text-kld-red"
-                      : "border border-black/10 text-[#444]"}
-                  `}
+                <span
+                  className={`rank-pos ${r.placement === 1 ? "is-top" : ""}`}
+                  style={{ fontSize: 22 }}
                 >
-                  {r.placement}위
-                </div>
-                <div className="text-right">
-                  <span className="font-display text-[18px] tracking-[0.04em] text-[#080808]">
-                    {r.distance}
-                    <span className="font-mono text-[10px] text-[#666] ml-0.5">
-                      m
-                    </span>
+                  {r.placement}
+                  <span
+                    style={{
+                      fontFamily: "var(--kld-font-mono)",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      fontSize: 9,
+                      letterSpacing: "0.2em",
+                      marginLeft: 4,
+                      color: "var(--kld-fg-3)",
+                    }}
+                  >
+                    PL
                   </span>
-                </div>
+                </span>
+                <span className="rank-metric">
+                  {r.distance}
+                  <span className="u">M</span>
+                </span>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      {/* ── 정회원 유도 배너 (일반회원에게만) ── */}
+      {/* 정회원 전환 배너 */}
       {memberType === "general" ? (
         <section
           aria-label="정회원 전환 안내"
-          className="
-            relative overflow-hidden
-            p-6 md:p-7
-            bg-kld-red/10 border border-kld-red/40
-          "
+          style={{
+            padding: 32,
+            background:
+              "radial-gradient(ellipse at 30% 50%, rgba(200, 255, 62, 0.1), transparent 65%), var(--kld-surface-1)",
+            border: "1px solid var(--kld-line-strong)",
+            borderTop: "2px solid var(--accent)",
+          }}
         >
-          <div className="font-mono text-[10px] tracking-[0.26em] text-kld-red uppercase mb-2">
-            Upgrade · Full Member
+          <div className="sec-eyebrow" style={{ marginBottom: 12 }}>
+            UPGRADE · 정회원 전환
           </div>
-          <h3 className="font-display text-[22px] md:text-[28px] tracking-[0.02em] text-white-kld mb-2">
-            정회원으로 업그레이드하고 대회에 출전하세요
-          </h3>
-          <p className="text-[13px] font-light leading-[1.7] text-gray-light mb-5 max-w-[560px]">
-            정회원이 되면 KLD 공식 대회 참가 신청, 시즌 포인트 집계,
-            공식 선수 프로필 공개 등 모든 기능을 이용할 수 있습니다.
-          </p>
-          <Link
-            href="/auth/register"
-            className="
-              inline-flex items-center justify-center
-              font-ui text-[12px] font-bold tracking-[0.22em] uppercase text-white-kld
-              bg-kld-red px-5 py-3
-              hover:bg-kld-red-light transition-colors
-            "
+          <h3
+            style={{
+              fontFamily: "var(--kld-font-display)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              fontSize: "clamp(24px, 3vw, 36px)",
+              color: "#fff",
+              lineHeight: 1,
+              letterSpacing: "-0.01em",
+              textTransform: "uppercase",
+              margin: "0 0 12px",
+            }}
           >
-            정회원 전환하기 →
+            GO FULL MEMBER
+          </h3>
+          <p
+            className="kld-caption-kr"
+            style={{
+              marginBottom: 24,
+              maxWidth: 560,
+              color: "var(--kld-fg-2)",
+            }}
+          >
+            정회원이 되면 KLD 공식 대회 참가 신청, 시즌 포인트 집계, 공식 선수
+            프로필 공개 등 모든 기능을 이용할 수 있습니다.
+          </p>
+          <Link href="/auth/register" className="btn btn-primary">
+            정회원 전환하기 <span className="arrow">→</span>
           </Link>
         </section>
       ) : null}
@@ -194,30 +258,61 @@ interface StatCardProps {
   value: string;
   unit?: string;
   sub?: string;
+  hi?: boolean;
 }
 
-function StatCard({ label, value, unit, sub }: StatCardProps) {
+function StatCard({ label, value, unit, sub, hi }: StatCardProps) {
   return (
     <div
-      className="
-        flex flex-col
-        p-4 md:p-5
-        bg-white-kld border border-black/[0.08]
-      "
+      style={{
+        background: "var(--kld-surface-1)",
+        padding: "22px 24px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+      }}
     >
-      <div className="font-mono text-[10px] tracking-[0.22em] text-[#666] uppercase mb-2">
-        {label}
-      </div>
-      <div className="font-display text-[clamp(24px,3vw,36px)] leading-none text-[#080808]">
+      <div className="kld-caption-mono">{label}</div>
+      <div
+        style={{
+          fontFamily: "var(--kld-font-display)",
+          fontWeight: 900,
+          fontStyle: "italic",
+          fontSize: "clamp(28px, 3vw, 40px)",
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+          color: hi ? "var(--accent)" : "#fff",
+          display: "inline-flex",
+          alignItems: "baseline",
+          gap: 4,
+        }}
+      >
         {value}
         {unit ? (
-          <span className="font-mono text-[11px] text-[#888] ml-1">
+          <span
+            style={{
+              fontSize: "0.4em",
+              color: "var(--kld-fg-3)",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              fontStyle: "normal",
+            }}
+          >
             {unit}
           </span>
         ) : null}
       </div>
       {sub ? (
-        <div className="mt-2 font-mono text-[11px] text-[#888] truncate">
+        <div
+          className="kld-caption-mono"
+          style={{
+            color: "var(--kld-fg-3)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
           {sub}
         </div>
       ) : null}
@@ -225,22 +320,17 @@ function StatCard({ label, value, unit, sub }: StatCardProps) {
   );
 }
 
-/** 다음 대회 D-Day 표시값을 계산한다. */
 function computeDDay(dateISO?: string): { value: string; unit?: string } {
   if (!dateISO) return { value: "—" };
-
   const target = new Date(dateISO).getTime();
   if (Number.isNaN(target)) return { value: "—" };
-
   const diffMs = target - Date.now();
   const days = Math.ceil(diffMs / 86_400_000);
-
   if (days > 0) return { value: `D-${days}`, unit: "일 뒤" };
   if (days === 0) return { value: "D-Day", unit: "오늘" };
   return { value: "종료", unit: "대회 마감" };
 }
 
-/** 해당 선수의 올해(현재 시스템 기준) 출전 대회 수를 센다. */
 function countThisYearEntries(profile: PlayerProfile | null): number {
   if (!profile) return 0;
   const thisYear = new Date().getFullYear().toString();
