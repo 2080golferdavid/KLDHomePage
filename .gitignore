@@ -38,3 +38,6 @@ next-env.d.ts
 # local-only design references / source assets
 /reference/
 /images/
+
+# admin content saved on this computer
+.data/
