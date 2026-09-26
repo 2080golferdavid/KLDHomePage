@@ -17,7 +17,10 @@ function SubmitButton() {
 
 export default function InquiryForm({ email }: { email: string }) {
   const [state, action] = useFormState(submitInquiry, initial);
-  const mailto = `mailto:${email}?subject=${encodeURIComponent("한국장타협회 문의")}`;
+  const trimmedEmail = email.trim();
+  const mailto = trimmedEmail.includes("@")
+    ? `mailto:${trimmedEmail}?subject=${encodeURIComponent("한국장타협회 문의")}`
+    : "";
 
   return (
     <form action={action} className="space-y-4">
@@ -44,7 +47,7 @@ export default function InquiryForm({ email }: { email: string }) {
           required
           maxLength={120}
           className="kld-input"
-          placeholder="you@example.com"
+          placeholder="이메일 주소"
         />
       </div>
       <div>
@@ -74,9 +77,11 @@ export default function InquiryForm({ email }: { email: string }) {
       )}
       <div className="flex flex-wrap items-center gap-4">
         <SubmitButton />
-        <a href={mailto} className="text-sm font-semibold text-kld-navy underline">
-          메일로 직접 보내기
-        </a>
+        {mailto ? (
+          <a href={mailto} className="text-sm font-semibold text-kld-navy underline">
+            메일로 직접 보내기
+          </a>
+        ) : null}
       </div>
     </form>
   );

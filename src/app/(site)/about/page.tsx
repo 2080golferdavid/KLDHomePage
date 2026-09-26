@@ -50,21 +50,23 @@ export default async function AboutPage() {
         ))}
       </section>
 
-      <section className="kld-card p-6 sm:p-10">
-        <p className="text-[11px] font-semibold tracking-[0.18em] text-kld-red">HISTORY</p>
-        <h2 className="mt-2 text-3xl font-black">걸어온 길</h2>
-        <ol className="mt-8 space-y-6">
-          {about.history.map((item) => (
-            <li key={`${item.year}-${item.title}`} className="grid gap-2 border-t border-kld-line pt-6 sm:grid-cols-[100px_1fr]">
-              <p className="text-lg font-black text-kld-navy">{item.year}</p>
-              <div>
-                <h3 className="text-lg font-bold">{item.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-kld-muted">{item.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+      {about.history.length > 0 && (
+        <section className="kld-card p-6 sm:p-10">
+          <p className="text-[11px] font-semibold tracking-[0.18em] text-kld-red">HISTORY</p>
+          <h2 className="mt-2 text-3xl font-black">걸어온 길</h2>
+          <ol className="mt-8 space-y-6">
+            {about.history.map((item) => (
+              <li key={`${item.year}-${item.title}`} className="grid gap-2 border-t border-kld-line pt-6 sm:grid-cols-[100px_1fr]">
+                <p className="text-lg font-black text-kld-navy">{item.year}</p>
+                <div>
+                  <h3 className="text-lg font-bold">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-kld-muted">{item.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
     </main>
   );
 }
