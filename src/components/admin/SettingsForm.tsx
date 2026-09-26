@@ -50,12 +50,14 @@ export default function SettingsForm({ initial }: { initial: SiteSettings }) {
 
       <section className="kld-card space-y-4 p-6">
         <h2 className="text-lg font-black">로고와 파비콘</h2>
-        <p className="text-sm text-kld-muted">비워 두면 기본 KLD 로고를 씁니다. 파일을 올리면 그 그림으로 바뀝니다.</p>
+        <p className="text-sm text-kld-muted">비워 두면 기본 KLD 로고를 씁니다. 파일을 올리면 자르기 창에서 크기와 위치를 맞춘 뒤 그 그림으로 바뀝니다.</p>
         <MediaField
           label="로고"
+          hint="파일을 고르면 자르기 창이 열립니다. 끌어 옮기고 확대한 뒤 적용하세요. 저장되는 그림은 450KB보다 작아야 합니다."
           emptyLabel="기본 로고"
           value={settings.logoUrl}
           onChange={(logoUrl) => set("logoUrl", logoUrl)}
+          cropLogo
         />
         <MediaField
           label="파비콘"
