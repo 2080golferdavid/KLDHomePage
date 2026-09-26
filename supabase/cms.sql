@@ -14,7 +14,7 @@ create table if not exists public.cms_collections (
 );
 
 comment on table public.cms_collections is
-  'MVP 콘텐츠. key 는 settings, about, officials, news, contact, legal, inquiries, players, events';
+  'MVP 콘텐츠. key 는 settings, about, greeting, officials, news, contact, legal, inquiries, players, events';
 
 alter table public.cms_collections enable row level security;
 
@@ -39,6 +39,7 @@ for each row execute function public.cms_set_updated_at();
 -- key 와 나중에 나눌 Payload 컬렉션
 --   settings   -> Global SiteSettings (로고, 파비콘, 히어로, 슬로건, SNS)
 --   about      -> Global About
+--   greeting   -> Global Greeting (회장 인사말)
 --   officials  -> Collection Officials
 --   news       -> Collection News
 --   contact    -> Global Contact

@@ -15,6 +15,7 @@ import type {
   AboutContent,
   ActionResult,
   ContactSettings,
+  GreetingContent,
   LegalDoc,
   NewsPost,
   Official,
@@ -132,6 +133,29 @@ export async function saveAbout(input: AboutContent): Promise<ActionResult> {
     await saveCollection("about", next);
     refresh();
     return { ok: true, message: "소개 글을 저장했습니다." };
+  } catch (error) {
+    return failed(error);
+  }
+}
+
+export async function saveGreeting(input: GreetingContent): Promise<ActionResult> {
+  if (!isAdminSession()) return denied();
+  try {
+    const photoUrl = cleanMediaUrl(input.photoUrl ?? "");
+    if (photoUrl === null) {
+      return { ok: false, message: "사진 주소는 http(s), 사이트 경로, 또는 이미지 파일만 됩니다." };
+    }
+    const next: GreetingContent = {
+      title: clip(input.title ?? "", 80) || "회장 인사말",
+      body: clip(input.body ?? "", 20000),
+      name: clip(input.name ?? "", 40),
+      role: clip(input.role ?? "", 40),
+      photoUrl,
+      updatedAt: new Date().toISOString(),
+    };
+    await saveCollection("greeting", next);
+    refresh();
+    return { ok: true, message: "회장 인사말을 저장했습니다. 공개 화면을 새로고침해 보세요." };
   } catch (error) {
     return failed(error);
   }

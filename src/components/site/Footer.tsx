@@ -1,13 +1,12 @@
 import Link from "next/link";
 import CmsImage from "@/components/site/CmsImage";
 import { FOOTER_LOGO_CLASS } from "@/components/site/logoStyle";
+import { ABOUT_NAV, PRIMARY_NAV } from "@/components/site/nav";
 import type { SiteSettings } from "@/lib/content/types";
 
 const LINKS = [
-  { href: "/about", label: "KLD 소개" },
-  { href: "/officials", label: "임원진" },
-  { href: "/news", label: "협회 소식" },
-  { href: "/contact", label: "연락·문의" },
+  ...ABOUT_NAV,
+  ...PRIMARY_NAV,
   { href: "/privacy", label: "개인정보처리방침" },
   { href: "/terms", label: "이용약관" },
 ];

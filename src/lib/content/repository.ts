@@ -17,6 +17,7 @@ const FILE_PATH = path.join(process.cwd(), ".data", "site-content.json");
 const COLLECTION_KEYS: CollectionKey[] = [
   "settings",
   "about",
+  "greeting",
   "officials",
   "news",
   "contact",
@@ -46,6 +47,7 @@ export function mergeDocument(input: unknown): SiteDocument {
       values: Array.isArray(about.values) ? about.values : seed.about.values,
       history: Array.isArray(about.history) ? about.history : seed.about.history,
     },
+    greeting: { ...seed.greeting, ...(isRecord(input.greeting) ? input.greeting : {}) },
     officials: Array.isArray(input.officials) ? input.officials : seed.officials,
     news: Array.isArray(input.news) ? input.news : seed.news,
     contact: { ...seed.contact, ...(isRecord(input.contact) ? input.contact : {}) },

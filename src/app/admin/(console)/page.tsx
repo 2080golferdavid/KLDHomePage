@@ -22,7 +22,7 @@ export default async function AdminHomePage() {
   return (
     <div>
       <h1 className="text-3xl font-black">운영 대시보드</h1>
-      <p className="mt-2 text-sm text-kld-muted">로고, 소개, 임원, 소식, 연락처를 코드 없이 고칩니다.</p>
+      <p className="mt-2 text-sm text-kld-muted">로고, 소개, 회장 인사말, 임원, 소식, 연락처를 코드 없이 고칩니다.</p>
       <p className={`mt-4 rounded-2xl px-4 py-3 text-sm ${problem ? "bg-red-50 text-kld-red" : "bg-white text-kld-muted shadow-card"}`}>
         {problem ? `저장소를 확인하지 못했습니다. ${problem}` : status.detail}
       </p>
@@ -42,6 +42,9 @@ export default async function AdminHomePage() {
           </li>
           <li className="py-3">
             <Link href="/admin/news/new">새 소식 쓰기 →</Link>
+          </li>
+          <li className="py-3">
+            <Link href="/admin/greeting">회장 인사말 수정 →</Link>
           </li>
           <li className="py-3">
             <Link href="/admin/officials">임원 카드 수정 →</Link>
