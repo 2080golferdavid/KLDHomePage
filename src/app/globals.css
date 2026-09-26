@@ -65,8 +65,4 @@
   .kld-btn-line {
     @apply kld-btn border border-kld-line bg-white text-kld-ink hover:bg-kld-paper;
   }
-
-  .kld-chip {
-    @apply inline-flex items-center rounded-full bg-kld-paper px-2.5 py-1 text-[11px] font-semibold text-kld-muted;
-  }
 }

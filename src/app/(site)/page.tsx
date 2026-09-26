@@ -85,7 +85,6 @@ export default async function HomePage() {
                 <Link href={`/news/${post.slug}`} className="flex flex-col gap-2 py-5 sm:flex-row sm:items-baseline sm:justify-between">
                   <span>
                     <span className="mr-2 text-xs font-semibold text-kld-navy">{post.category}</span>
-                    {post.isExample && <span className="kld-chip mr-2">예시</span>}
                     <span className="text-base font-bold">{post.title}</span>
                     <span className="mt-1 block text-sm text-kld-muted">{post.excerpt}</span>
                   </span>

@@ -17,7 +17,7 @@ function blank(sort: number): Official {
     photoUrl: "",
     sort,
     published: true,
-    isExample: true,
+    isExample: false,
   };
 }
 
@@ -81,10 +81,6 @@ export default function OfficialsForm({ initial }: { initial: Official[] }) {
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={person.published} onChange={(e) => update(index, { published: e.target.checked })} />
               공개
-            </label>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={person.isExample} onChange={(e) => update(index, { isExample: e.target.checked })} />
-              예시 표시
             </label>
             <button type="button" className="font-semibold text-kld-red" onClick={() => setPeople(people.filter((item) => item.id !== person.id))}>
               이 임원 삭제

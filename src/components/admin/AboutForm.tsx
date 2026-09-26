@@ -140,18 +140,6 @@ export default function AboutForm({ initial }: { initial: AboutContent }) {
                 setAbout({ ...about, history });
               }}
             />
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={item.isExample}
-                onChange={(e) => {
-                  const history = about.history.slice();
-                  history[index] = { ...item, isExample: e.target.checked };
-                  setAbout({ ...about, history });
-                }}
-              />
-              예시 표시
-            </label>
             <button
               type="button"
               className="text-sm font-semibold text-kld-red"
@@ -167,7 +155,7 @@ export default function AboutForm({ initial }: { initial: AboutContent }) {
           onClick={() =>
             setAbout({
               ...about,
-              history: [...about.history, { year: "", title: "", body: "", isExample: true }],
+              history: [...about.history, { year: "", title: "", body: "", isExample: false }],
             })
           }
         >

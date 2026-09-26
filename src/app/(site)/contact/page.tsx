@@ -16,7 +16,7 @@ export default async function ContactPage() {
     { label: "전화", value: contact.phone },
     { label: "주소", value: contact.address },
     { label: "시간", value: contact.hours },
-  ];
+  ].filter((fact) => fact.value.trim());
 
   return (
     <main className="kld-shell py-10 pb-16">
@@ -26,18 +26,19 @@ export default async function ContactPage() {
 
       <div className="mt-8 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
         <section className="kld-card p-6 sm:p-8">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-black">협회 연락처</h2>
-            {contact.isExample && <span className="kld-chip">예시</span>}
-          </div>
-          <dl className="mt-6 space-y-4">
-            {facts.map((fact) => (
-              <div key={fact.label}>
-                <dt className="text-xs font-semibold tracking-wide text-kld-muted">{fact.label}</dt>
-                <dd className="mt-1 text-base font-semibold">{fact.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <h2 className="text-xl font-black">협회 연락처</h2>
+          {facts.length === 0 ? (
+            <p className="mt-6 text-sm leading-relaxed text-kld-muted">공개된 연락처가 없습니다. 아래 양식으로 문의를 남겨 주세요.</p>
+          ) : (
+            <dl className="mt-6 space-y-4">
+              {facts.map((fact) => (
+                <div key={fact.label}>
+                  <dt className="text-xs font-semibold tracking-wide text-kld-muted">{fact.label}</dt>
+                  <dd className="mt-1 text-base font-semibold">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </section>
         <section className="kld-card p-6 sm:p-8">
           <h2 className="text-xl font-black">문의 남기기</h2>

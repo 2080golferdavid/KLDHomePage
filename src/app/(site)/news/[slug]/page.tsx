@@ -31,7 +31,6 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <article className="kld-card mt-4 p-6 sm:p-10">
         <div className="flex flex-wrap items-center gap-2 text-xs text-kld-muted">
           <span className="font-semibold text-kld-navy">{post.category}</span>
-          {post.isExample && <span className="kld-chip">예시</span>}
           <time dateTime={post.publishedAt}>{formatKoDate(post.publishedAt)}</time>
         </div>
         <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">{post.title}</h1>

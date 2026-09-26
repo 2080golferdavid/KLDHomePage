@@ -19,7 +19,6 @@ export default async function OfficialsPage() {
       <p className="mt-4 max-w-2xl text-base leading-relaxed text-kld-muted">
         한국장타협회의 운영과 성장을 함께하는 임원진을 소개합니다.
       </p>
-      <p className="mt-2 text-sm text-kld-muted">이름, 역할, 사진은 확정 전 예시일 수 있습니다. 카드의 예시 표시를 확인해 주세요.</p>
 
       {people.length === 0 ? (
         <p className="kld-card mt-8 p-8 text-sm text-kld-muted">아직 공개된 임원이 없습니다.</p>
@@ -28,7 +27,6 @@ export default async function OfficialsPage() {
           {people.map((person) => (
             <li key={person.id} className="overflow-hidden rounded-[28px] bg-white shadow-card">
               <div className="relative flex h-64 items-center justify-center bg-gradient-to-b from-[#E7EEF6] to-[#F7F8FB]">
-                {person.isExample && <span className="kld-chip absolute left-4 top-4 bg-white">예시 프로필</span>}
                 {person.photoUrl ? (
                   <CmsImage src={person.photoUrl} alt="" className="h-full w-full object-cover" />
                 ) : (
@@ -44,7 +42,9 @@ export default async function OfficialsPage() {
               <div className="px-5 py-5">
                 <p className="text-sm font-semibold text-[#1D4E89]">{person.role}</p>
                 <h2 className="mt-1 text-2xl font-black">{person.name}</h2>
-                <p className="text-[11px] font-semibold tracking-[0.16em] text-kld-muted">{person.nameEn}</p>
+                {person.nameEn ? (
+                  <p className="text-[11px] font-semibold tracking-[0.16em] text-kld-muted">{person.nameEn}</p>
+                ) : null}
                 {person.bio && <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-kld-muted">{person.bio}</p>}
               </div>
             </li>
