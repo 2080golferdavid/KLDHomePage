@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CmsImage from "@/components/site/CmsImage";
+import { FOOTER_LOGO_CLASS } from "@/components/site/logoStyle";
 import type { SiteSettings } from "@/lib/content/types";
 
 const LINKS = [
@@ -18,7 +19,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
     <footer className="mt-8 border-t border-kld-line bg-white">
       <div className="kld-shell flex flex-col gap-8 py-10 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-sm">
-          <CmsImage src={logoSrc} alt="" className="h-8 w-auto object-contain" />
+          <CmsImage src={logoSrc} alt="" className={FOOTER_LOGO_CLASS} />
           <p className="mt-4 text-lg font-bold leading-snug text-kld-ink">{settings.slogan}</p>
           <p className="mt-2 text-sm leading-relaxed text-kld-muted">{settings.footerNote}</p>
         </div>

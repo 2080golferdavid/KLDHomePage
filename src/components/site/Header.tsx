@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import CmsImage from "@/components/site/CmsImage";
+import { HEADER_LOGO_CLASS } from "@/components/site/logoStyle";
 import type { SiteSettings } from "@/lib/content/types";
 
 const NAV = [
@@ -35,8 +36,8 @@ export default function Header({ settings }: { settings: SiteSettings }) {
     <header className="kld-shell pt-4 sm:pt-6">
       <div className="flex items-center gap-4 rounded-[22px] bg-white px-4 py-3 shadow-card sm:px-5">
         <Link href="/" className="flex min-w-0 items-center gap-3">
-          <CmsImage src={logoSrc} alt={`${settings.siteName} 로고`} className="h-9 w-auto max-w-[140px] object-contain" />
-          <span className="hidden h-8 w-px bg-kld-line sm:block" />
+          <CmsImage src={logoSrc} alt={`${settings.siteName} 로고`} className={HEADER_LOGO_CLASS} />
+          <span className="hidden h-9 w-px bg-kld-line sm:block" />
           <span className="hidden min-w-0 leading-tight sm:block">
             <span className="block truncate text-sm font-bold text-kld-ink">{settings.siteName}</span>
             <span className="block truncate text-[10px] font-medium tracking-[0.14em] text-kld-muted">
