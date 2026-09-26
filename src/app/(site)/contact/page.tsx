@@ -26,10 +26,7 @@ export default async function ContactPage() {
 
       <div className="mt-8 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
         <section className="kld-card p-6 sm:p-8">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-black">협회 연락처</h2>
-            {contact.isExample && <span className="kld-chip">예시</span>}
-          </div>
+          <h2 className="text-xl font-black">협회 연락처</h2>
           <dl className="mt-6 space-y-4">
             {facts.map((fact) => (
               <div key={fact.label}>

@@ -89,7 +89,7 @@ export async function saveSettings(input: SiteSettings): Promise<ActionResult> {
       logoUrl,
       faviconUrl,
       footerNote: clip(input.footerNote, 200),
-      disclaimer: clip(input.disclaimer, 300),
+      disclaimer: "",
       sns,
       updatedAt: new Date().toISOString(),
     };
@@ -124,7 +124,7 @@ export async function saveAbout(input: AboutContent): Promise<ActionResult> {
           year: clip(item.year, 12),
           title: clip(item.title, 80),
           body: clip(item.body, 400),
-          isExample: Boolean(item.isExample),
+          isExample: false,
         }))
         .filter((item) => item.title),
       updatedAt: new Date().toISOString(),
@@ -157,7 +157,7 @@ export async function saveOfficials(input: Official[]): Promise<ActionResult> {
         photoUrl,
         sort: Number.isFinite(Number(person.sort)) ? Number(person.sort) : next.length + 1,
         published: Boolean(person.published),
-        isExample: Boolean(person.isExample),
+        isExample: false,
       });
     }
     await saveCollection("officials", next);
@@ -191,7 +191,7 @@ export async function saveNewsPost(input: NewsPost): Promise<ActionResult> {
         ? new Date().toISOString()
         : publishedAt.toISOString(),
       published: Boolean(input.published),
-      isExample: Boolean(input.isExample),
+      isExample: false,
     };
     const news = doc.news.some((post) => post.id === next.id)
       ? doc.news.map((post) => (post.id === next.id ? next : post))
@@ -224,7 +224,7 @@ export async function saveContact(input: ContactSettings): Promise<ActionResult>
       address: clip(input.address, 160),
       hours: clip(input.hours, 80),
       note: clip(input.note, 400),
-      isExample: Boolean(input.isExample),
+      isExample: false,
       updatedAt: new Date().toISOString(),
     };
     await saveCollection("contact", next);
@@ -246,13 +246,13 @@ export async function saveLegal(input: {
       privacy: {
         title: clip(input.privacy.title, 40) || "개인정보처리방침",
         body: clip(input.privacy.body, 20000),
-        isDraft: Boolean(input.privacy.isDraft),
+        isDraft: false,
         updatedAt: stamp,
       },
       terms: {
         title: clip(input.terms.title, 40) || "이용약관",
         body: clip(input.terms.body, 20000),
-        isDraft: Boolean(input.terms.isDraft),
+        isDraft: false,
         updatedAt: stamp,
       },
     });

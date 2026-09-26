@@ -45,9 +45,8 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           )}
         </div>
       </div>
-      <div className="kld-shell flex flex-col gap-2 border-t border-kld-line py-4 text-xs text-kld-muted sm:flex-row sm:items-center sm:justify-between">
+      <div className="kld-shell border-t border-kld-line py-4 text-xs text-kld-muted">
         <p>© {new Date().getFullYear()} {settings.siteNameEn}</p>
-        <p className="max-w-xl sm:text-right">{settings.disclaimer}</p>
       </div>
     </footer>
   );

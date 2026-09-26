@@ -49,7 +49,6 @@ export default async function AboutPage() {
           </article>
         ))}
       </section>
-      <p className="px-1 text-xs text-kld-muted">소개 문구와 가치는 임시 예시입니다. 확정 문장이 아닙니다.</p>
 
       <section className="kld-card p-6 sm:p-10">
         <p className="text-[11px] font-semibold tracking-[0.18em] text-kld-red">HISTORY</p>
@@ -59,9 +58,7 @@ export default async function AboutPage() {
             <li key={`${item.year}-${item.title}`} className="grid gap-2 border-t border-kld-line pt-6 sm:grid-cols-[100px_1fr]">
               <p className="text-lg font-black text-kld-navy">{item.year}</p>
               <div>
-                <h3 className="text-lg font-bold">
-                  {item.title} {item.isExample && <span className="kld-chip ml-1 align-middle">예시</span>}
-                </h3>
+                <h3 className="text-lg font-bold">{item.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-kld-muted">{item.body}</p>
               </div>
             </li>

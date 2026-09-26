@@ -96,10 +96,6 @@ export default function SettingsForm({ initial }: { initial: SiteSettings }) {
           <span className="kld-label">바닥글 짧은 설명</span>
           <textarea className="kld-input" rows={2} value={settings.footerNote} onChange={(e) => set("footerNote", e.target.value)} />
         </label>
-        <label className="block">
-          <span className="kld-label">예시 안내 문장</span>
-          <textarea className="kld-input" rows={3} value={settings.disclaimer} onChange={(e) => set("disclaimer", e.target.value)} />
-        </label>
         <div className="space-y-3">
           {settings.sns.map((link, index) => (
             <div key={index} className="grid gap-2 sm:grid-cols-[1fr_1.4fr_auto]">

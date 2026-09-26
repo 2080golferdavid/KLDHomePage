@@ -49,14 +49,6 @@ export default function LegalForm({
               onChange={(e) => setDocs({ ...docs, [key]: { ...docs[key], body: e.target.value } })}
             />
           </label>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={docs[key].isDraft}
-              onChange={(e) => setDocs({ ...docs, [key]: { ...docs[key], isDraft: e.target.checked } })}
-            />
-            임시 초안 표시
-          </label>
         </section>
       ))}
       <SaveNote result={result} />

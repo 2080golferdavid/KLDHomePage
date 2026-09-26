@@ -5,7 +5,7 @@ import { publishedNews, publishedOfficials } from "@/lib/format";
 const MODE_LABEL = {
   file: "이 컴퓨터 파일",
   supabase: "Supabase",
-  seed: "예시만, 읽기 전용",
+  seed: "기본 글, 읽기 전용",
 } as const;
 
 export default async function AdminHomePage() {

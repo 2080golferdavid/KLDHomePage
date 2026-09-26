@@ -25,7 +25,6 @@ export default async function NewsAdminPage() {
               <p className="font-bold">{post.title}</p>
               <p className="text-xs text-kld-muted">
                 {formatKoDate(post.publishedAt)} · {post.published ? "공개" : "숨김"}
-                {post.isExample ? " · 예시" : ""}
               </p>
             </div>
             <Link href={`/admin/news/${post.id}`} className="text-sm font-semibold text-kld-navy">

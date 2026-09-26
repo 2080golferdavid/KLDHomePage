@@ -13,11 +13,6 @@ export default async function PrivacyPage() {
   return (
     <main className="kld-shell py-10 pb-16">
       <article className="kld-card mx-auto max-w-3xl p-6 sm:p-10">
-        {page.isDraft && (
-          <p className="mb-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            법률 검토 전 임시 초안입니다. 확정된 방침이 아닙니다.
-          </p>
-        )}
         <h1 className="text-3xl font-black">{page.title}</h1>
         <p className="mt-2 text-xs text-kld-muted">업데이트 {formatKoDate(page.updatedAt)}</p>
         <div className="mt-8">

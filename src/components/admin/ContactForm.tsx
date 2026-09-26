@@ -43,14 +43,6 @@ export default function ContactForm({ initial }: { initial: ContactSettings }) {
         <span className="kld-label">안내 문장</span>
         <textarea className="kld-input" rows={3} value={contact.note} onChange={(e) => setContact({ ...contact, note: e.target.value })} />
       </label>
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={contact.isExample}
-          onChange={(e) => setContact({ ...contact, isExample: e.target.checked })}
-        />
-        연락처가 아직 예시임을 표시
-      </label>
       <SaveNote result={result} />
       <button type="submit" className="kld-btn-navy" disabled={pending}>
         {pending ? "저장 중…" : "연락처 저장"}

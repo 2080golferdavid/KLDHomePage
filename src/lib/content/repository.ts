@@ -30,7 +30,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-/** 파일이나 DB 가 비어 있어도 예시 글로 사이트가 채워지게 합친다. */
+/** 파일이나 DB 가 비어 있어도 기본 글로 사이트가 채워지게 합친다. */
 export function mergeDocument(input: unknown): SiteDocument {
   const seed = createSeed();
   if (!isRecord(input)) return seed;
@@ -161,7 +161,7 @@ export function getContentStatus(): ContentStatus {
   return {
     mode,
     writable: false,
-    detail: "지금은 예시 글만 보여 줍니다. 저장하려면 Supabase를 연결하세요.",
+    detail: "지금은 기본 글만 보여 줍니다. 저장하려면 Supabase를 연결하세요.",
   };
 }
 

@@ -23,7 +23,7 @@ function createDraft(): NewsPost {
     category: "안내",
     publishedAt: new Date().toISOString(),
     published: true,
-    isExample: true,
+    isExample: false,
   };
 }
 
@@ -91,10 +91,6 @@ export default function NewsForm({ initial }: { initial: NewsPost | null }) {
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={post.published} onChange={(e) => set("published", e.target.checked)} />
           공개
-        </label>
-        <label className="flex items-center gap-2">
-          <input type="checkbox" checked={post.isExample} onChange={(e) => set("isExample", e.target.checked)} />
-          예시 표시
         </label>
       </div>
       <SaveNote result={result} />
