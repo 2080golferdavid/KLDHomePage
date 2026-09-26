@@ -50,6 +50,16 @@ export interface AboutContent {
   updatedAt: string;
 }
 
+/** 회장 인사말. 이름·사진·본문은 관리자가 채우기 전까지 비워 둔다. */
+export interface GreetingContent {
+  title: string;
+  body: string;
+  name: string;
+  role: string;
+  photoUrl: string;
+  updatedAt: string;
+}
+
 export interface Official {
   id: string;
   name: string;
@@ -122,6 +132,7 @@ export interface FutureEvent {
 export interface SiteDocument {
   settings: SiteSettings;
   about: AboutContent;
+  greeting: GreetingContent;
   officials: Official[];
   news: NewsPost[];
   contact: ContactSettings;

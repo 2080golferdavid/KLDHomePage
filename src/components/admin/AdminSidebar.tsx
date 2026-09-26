@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin", label: "대시보드" },
   { href: "/admin/settings", label: "사이트 설정" },
   { href: "/admin/about", label: "소개 문구" },
+  { href: "/admin/greeting", label: "회장 인사말" },
   { href: "/admin/officials", label: "임원진" },
   { href: "/admin/news", label: "협회 소식" },
   { href: "/admin/contact", label: "연락처" },

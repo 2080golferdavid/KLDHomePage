@@ -53,6 +53,14 @@ export function createSeed(): SiteDocument {
       history: [],
       updatedAt: STAMP,
     },
+    greeting: {
+      title: "회장 인사말",
+      body: "",
+      name: "",
+      role: "",
+      photoUrl: "",
+      updatedAt: STAMP,
+    },
     officials: [
       {
         id: "official-example-kim",

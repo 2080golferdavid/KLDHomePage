@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getDocument } from "@/lib/content/repository";
 
 export const metadata: Metadata = {
-  title: "KLD 소개",
+  title: "협회 소개",
   description: "한국장타협회의 마음가짐, 가치, 걸어온 길을 소개합니다.",
 };
 
@@ -25,7 +25,10 @@ export default async function AboutPage() {
         </h1>
         <p className="mt-6 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">{about.intro}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/officials" className="kld-btn-red">
+          <Link href="/about/greeting" className="kld-btn-red">
+            회장 인사말
+          </Link>
+          <Link href="/about/officials" className="kld-btn-ghost">
             임원 만나보기
           </Link>
           <Link href="/contact" className="kld-btn-ghost">

@@ -8,6 +8,9 @@ const nextConfig = {
   async rewrites() {
     return [{ source: "/favicon.ico", destination: "/api/brand/favicon" }];
   },
+  async redirects() {
+    return [{ source: "/officials", destination: "/about/officials", permanent: true }];
+  },
 };
 
 export default nextConfig;
